@@ -78,5 +78,14 @@ namespace SimProvider
 
             return result;
         }
+
+        public static DataSet getDataSetFromBike(Bike bike, double velocity)
+        {
+            DataSet dataset = new DataSet();
+            dataset.bike = bike;
+            dataset.velocity = velocity;
+
+            return dataset;
+        }
     }
 }
