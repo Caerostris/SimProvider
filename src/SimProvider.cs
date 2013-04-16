@@ -66,7 +66,7 @@ namespace SimProvider
         public static DataSet getNextStep(DataSet dataset)
         {
             double forceMoving = (dataset.bike.engine.torque * dataset.bike.trs * dataset.bike.tra * 0.9) / (0.5 * dataset.bike.tire.diameter); // 0.9 is some factor that I can't remember, 0.5 is a factor in formula
-            double forceStopping = (0.5 * 0.57 * 1.2041 * dataset.bike.surface * dataset.velocity) + (dataset.bike.tire.crr * dataset.bike.weight * 9.81); // 0.57 is the coefficient of flow resistance, 1.2401 is the density of air, 9.81 is obvious
+            double forceStopping = (0.5 * 0.57 * 1.2041 * dataset.bike.surface * dataset.velocity * dataset.velocity) + (dataset.bike.tire.crr * dataset.bike.weight * 9.81); // 0.57 is the coefficient of flow resistance, 1.2401 is the density of air, 9.81 is obvious
             double actualForceMoving = forceMoving - forceStopping;
             double acceleration = actualForceMoving / dataset.bike.weight;
 
