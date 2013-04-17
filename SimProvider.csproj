@@ -42,6 +42,12 @@
     <Compile Include="src\SimProvider.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SimGL\SimGL.csproj">
+      <Project>{9f9bea17-f1f4-48a9-80a6-8201e51c2b26}</Project>
+      <Name>SimGL</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
