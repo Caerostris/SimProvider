@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading.Tasks;
 using OpenTK;
 
-namespace SimGL
+namespace SimProvider.Graphics
 {
-    class VBO
+    public class Mesh
     {
-       
+        public VertexBufferObject vbo;
+        public Matrix4 m;
     }
 }
