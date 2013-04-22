@@ -22,7 +22,7 @@ namespace SimProvider.Graphics
             System.Console.WriteLine(GL.GetShaderInfoLog(vertexShader));
             
             fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShader, vs);
+            GL.ShaderSource(fragmentShader, fs);
             GL.CompileShader(fragmentShader);
             System.Console.WriteLine(GL.GetShaderInfoLog(fragmentShader));
 
@@ -42,7 +42,7 @@ namespace SimProvider.Graphics
         {
             string vs = File.ReadAllText(vsPath);
             string fs = File.ReadAllText(fsPath);
-            return new ShaderProgram(fs, vs);
+            return new ShaderProgram(vs, fs);
         }
     }
 }

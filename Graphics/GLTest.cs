@@ -16,6 +16,7 @@ namespace SimProvider.Graphics
     {
         Texture t1;
         Texture t2;
+        ShaderProgram sp;
         public GLTest()
         {
             InitializeComponent();
@@ -24,7 +25,8 @@ namespace SimProvider.Graphics
         private void GLTest_Load(object sender, EventArgs e)
         {
             t1 = Texture.fromFile("Data/test1.png");
-            t1 = Texture.fromFile("Data/test2.png");
+            t2 = Texture.fromFile("Data/test2.png");
+            sp = ShaderProgram.create("Data/Shader/basic.v", "Data/Shader/basic.f");
         }
 
         private void timer1_Tick(object sender, EventArgs e)

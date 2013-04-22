@@ -57,9 +57,9 @@ namespace SimProvider
         public double diameter = 0.5;
     }
 
-    public static class Surface
+    public abstract class Surface
     {
-        public double crrAsphalt = 0.015;
+        public const double crrAsphalt = 0.015;
     }
 
     public class Bike
@@ -67,7 +67,7 @@ namespace SimProvider
         Battery battery;
         Engine engine;
         Tire tire;
-        Surface surface;
+        double surface = Surface.crrAsphalt;
         double velocity = 0;
         double acceleration = 0;
         double weight = 198;
@@ -79,7 +79,7 @@ namespace SimProvider
         public void update(double time)
         {
             double forceMoving = (this.engine.Torque * this.trs * this.tra * 0.9) / (0.5 * this.tire.diameter); // 0.9 is some factor that I can't remember, 0.5 is a factor in formula
-            double forceStopping = (0.5 * 0.57 * 1.2041 * this.bikeSurface * this.velocity * this.velocity) + (this.surface.crrAsphalt * this.weight * 9.81); // 0.57 is the coefficient of flow resistance, 1.2401 is the density of air, 9.81 is obvious
+            double forceStopping = (0.5 * 0.57 * 1.2041 * this.bikeSurface * this.velocity * this.velocity) + (this.surface * this.weight * 9.81); // 0.57 is the coefficient of flow resistance, 1.2401 is the density of air, 9.81 is obvious
             double actualForceMoving = forceMoving - forceStopping;
             double acceleration = actualForceMoving / this.weight;
 
