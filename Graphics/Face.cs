@@ -14,15 +14,15 @@ namespace SimProvider.Graphics
         /// <summary>
         /// Vertex Indices
         /// </summary>
-        int[] vIndices;
+        public int[] vIndices;
         /// <summary>
         /// Normal Indices
         /// </summary>
-        int[] nIndices;
+        public int[] nIndices;
         /// <summary>
         /// Texture Coordinate Indices
         /// </summary>
-        int[] tIndices;
+        public int[] tIndices;
 
         public Face(int[] vIndices, int[] nIndices, int[] tIndices)
         {

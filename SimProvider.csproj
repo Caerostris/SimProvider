@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="Graphics\Face.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
+    <Compile Include="Graphics\Vertex.cs" />
+    <Compile Include="Graphics\VertexBufferObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Graphics\GLTest.cs">
       <SubType>Form</SubType>

@@ -10,10 +10,10 @@ namespace SimProvider.Graphics
 {
     public class Model
     {
-        List<Vector3> vertices = new List<Vector3>();
-        List<Vector3> normals = new List<Vector3>();
-        List<Vector2> texCoords = new List<Vector2>();
-        List<Face> faces = new List<Face>();
+        private List<Vector3> vertices = new List<Vector3>();
+        private List<Vector3> normals = new List<Vector3>();
+        private List<Vector2> texCoords = new List<Vector2>();
+        private List<Face> faces = new List<Face>();
 
         public string Name { get; set; }
         public List<Vector3> Vertices { get { return vertices; } set { vertices = value; } }
