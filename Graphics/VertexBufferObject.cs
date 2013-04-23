@@ -11,6 +11,7 @@ namespace SimProvider.Graphics
     public class VertexBufferObject
     {
         int[] ids;
+        int elemets;
         public VertexBufferObject(Model m)
         {
             Vertex[] vertices = new Vertex[m.Vertices.Count];
@@ -21,8 +22,8 @@ namespace SimProvider.Graphics
                 {
                     Vertex v = new Vertex();
                     v.Position = m.Vertices[f[a].vIndices[i]-1];
-                    v.Normal = m.Vertices[f[a].nIndices[i]-1];
-                    v.TextureCoordinate = m.Vertices[f[a].tIndices[i]-1];
+                    v.Normal = m.Normals[f[a].nIndices[i]-1];
+                    v.TextureCoordinate = m.TexCoords[f[a].tIndices[i]-1];
                     vertices[f[a].vIndices[i]-1] = v;
                     indices[a] = f[a].vIndices[i];
                 }
@@ -38,6 +39,7 @@ namespace SimProvider.Graphics
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ids[1]);
             GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(sizeof(int)*indices.Length), indices, BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
+            elemets = indices.Length / 3;
         }
 
         public void delete()
@@ -51,9 +53,13 @@ namespace SimProvider.Graphics
             get { return ids[0]; }
         }
 
-        public int IndexBuffer
+        public int ElementBuffer
         {
             get { return ids[1]; }
+        }
+        public int ElementCount
+        {
+            get { return elemets; }
         }
     }
 }

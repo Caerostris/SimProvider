@@ -10,11 +10,11 @@ namespace SimProvider.Graphics
 {
     public class ShaderProgram
     {
-        private int id;
-        private int vertexShader;
-        private int fragmentShader;
+        protected int id;
+        protected int vertexShader;
+        protected int fragmentShader;
 
-        private ShaderProgram(string vs, string fs)
+        protected ShaderProgram(string vs, string fs)
         {
             vertexShader = GL.CreateShader(ShaderType.VertexShader);
             GL.ShaderSource(vertexShader, vs);

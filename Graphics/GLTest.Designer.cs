@@ -41,7 +41,7 @@
             this.glc.BackColor = System.Drawing.Color.Black;
             this.glc.Location = new System.Drawing.Point(12, 12);
             this.glc.Name = "glc";
-            this.glc.Size = new System.Drawing.Size(260, 238);
+            this.glc.Size = new System.Drawing.Size(800, 600);
             this.glc.TabIndex = 0;
             this.glc.VSync = false;
             // 
@@ -55,7 +55,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(859, 637);
             this.Controls.Add(this.glc);
             this.Name = "GLTest";
             this.Text = "GLTest";

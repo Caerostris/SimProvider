@@ -13,7 +13,7 @@ namespace SimProvider.Graphics
     {
         public Vector3 Position;
         public Vector3 Normal;
-        public Vector3 TextureCoordinate;
+        public Vector2 TextureCoordinate;
         public static int SizeInBytes
         {
             get { return Vector3.SizeInBytes*2+Vector2.SizeInBytes; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,29 +35,29 @@ namespace SimProvider.Graphics
                         models.Add(m);
                         break;
                     case "v":
-                        m.Vertices.Add(new Vector3(Single.Parse(s[1]), Single.Parse(s[2]), Single.Parse(s[3])));
+                        m.Vertices.Add(new Vector3(Single.Parse(s[1], CultureInfo.InvariantCulture), Single.Parse(s[2], CultureInfo.InvariantCulture), Single.Parse(s[3], CultureInfo.InvariantCulture)));
                         break;
                     case "vn":
-                        m.Normals.Add(new Vector3(Single.Parse(s[1]), Single.Parse(s[2]), Single.Parse(s[3])));
+                        m.Normals.Add(new Vector3(Single.Parse(s[1], CultureInfo.InvariantCulture), Single.Parse(s[2], CultureInfo.InvariantCulture), Single.Parse(s[3], CultureInfo.InvariantCulture)));
                         break;
                     case "vt":
-                        m.TexCoords.Add(new Vector2(Single.Parse(s[1]), Single.Parse(s[2])));
+                        m.TexCoords.Add(new Vector2(Single.Parse(s[1], CultureInfo.InvariantCulture), Single.Parse(s[2], CultureInfo.InvariantCulture)));
                         break;
                     case "f":
-                        int[] vI = new int[]{ Int32.Parse(s[1].Split('/')[0]), Int32.Parse(s[2].Split('/')[0]), Int32.Parse(s[3].Split('/')[0])};
+                        int[] vI = new int[] { Int32.Parse(s[1].Split('/')[0], CultureInfo.InvariantCulture), Int32.Parse(s[2].Split('/')[0], CultureInfo.InvariantCulture), Int32.Parse(s[3].Split('/')[0], CultureInfo.InvariantCulture) };
                         int[] nI = new int[] { -1, -1, -1 };
                         int[] tI = new int[] { -1, -1, -1 };
                         if (m.TexCoords.Count > 0)
                         {
-                            tI = new int[] { Int32.Parse(s[1].Split('/')[1]), Int32.Parse(s[2].Split('/')[1]), Int32.Parse(s[3].Split('/')[1]) };
+                            tI = new int[] { Int32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture), Int32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture), Int32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) };
                             if (m.Normals.Count > 0)
                             {
-                                nI = new int[] { Int32.Parse(s[1].Split('/')[2]), Int32.Parse(s[2].Split('/')[2]), Int32.Parse(s[3].Split('/')[2]) };
+                                nI = new int[] { Int32.Parse(s[1].Split('/')[2], CultureInfo.InvariantCulture), Int32.Parse(s[2].Split('/')[2], CultureInfo.InvariantCulture), Int32.Parse(s[3].Split('/')[2], CultureInfo.InvariantCulture) };
                             }
 
                         }else if (m.Normals.Count > 0)
                         {
-                            nI = new int[]{ Int32.Parse(s[1].Split('/')[1]), Int32.Parse(s[2].Split('/')[1]), Int32.Parse(s[3].Split('/')[1])};
+                            nI = new int[] { Int32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture), Int32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture), Int32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) };
                         }
                         m.Faces.Add(new Face(vI, nI, tI));
                         break;
