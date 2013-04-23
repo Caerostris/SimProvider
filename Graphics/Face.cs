@@ -14,26 +14,26 @@ namespace SimProvider.Graphics
         /// <summary>
         /// Vertex Indices
         /// </summary>
-        public int[] vIndices;
+        public uint[] vIndices;
         /// <summary>
         /// Normal Indices
         /// </summary>
-        public int[] nIndices;
+        public uint[] nIndices;
         /// <summary>
         /// Texture Coordinate Indices
         /// </summary>
-        public int[] tIndices;
+        public uint[] tIndices;
 
-        public Face(int[] vIndices, int[] nIndices, int[] tIndices)
+        public Face(uint[] vIndices, uint[] nIndices, uint[] tIndices)
         {
             this.vIndices = vIndices;
             this.tIndices = tIndices;
             this.nIndices = nIndices;
         }
-        public Face(int[] vIndices, int[] nIndices)
-            : this(vIndices, nIndices, new int[] { -1, -1, -1 }) { }
-        public Face(int[] vIndices)
-            : this(vIndices, new int[] { -1, -1, -1 }, new int[] { -1, -1, -1 }) { }
+        public Face(uint[] vIndices, uint[] nIndices)
+            : this(vIndices, nIndices, new uint[] { 0, 0, 0 }) { }
+        public Face(uint[] vIndices)
+            : this(vIndices, new uint[] { 0, 0, 0 }, new uint[] { 0, 0, 0 }) { }
 
     }
 }

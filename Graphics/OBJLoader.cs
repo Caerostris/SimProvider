@@ -44,20 +44,20 @@ namespace SimProvider.Graphics
                         m.TexCoords.Add(new Vector2(Single.Parse(s[1], CultureInfo.InvariantCulture), Single.Parse(s[2], CultureInfo.InvariantCulture)));
                         break;
                     case "f":
-                        int[] vI = new int[] { Int32.Parse(s[1].Split('/')[0], CultureInfo.InvariantCulture), Int32.Parse(s[2].Split('/')[0], CultureInfo.InvariantCulture), Int32.Parse(s[3].Split('/')[0], CultureInfo.InvariantCulture) };
-                        int[] nI = new int[] { -1, -1, -1 };
-                        int[] tI = new int[] { -1, -1, -1 };
+                        uint[] vI = new uint[] { UInt32.Parse(s[1].Split('/')[0], CultureInfo.InvariantCulture), UInt32.Parse(s[2].Split('/')[0], CultureInfo.InvariantCulture), UInt32.Parse(s[3].Split('/')[0], CultureInfo.InvariantCulture) };
+                        uint[] nI = new uint[] { 0, 0, 0 };
+                        uint[] tI = new uint[] { 0, 0, 0 };
                         if (m.TexCoords.Count > 0)
                         {
-                            tI = new int[] { Int32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture), Int32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture), Int32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) };
+                            tI = new uint[] { UInt32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture), UInt32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture), UInt32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) };
                             if (m.Normals.Count > 0)
                             {
-                                nI = new int[] { Int32.Parse(s[1].Split('/')[2], CultureInfo.InvariantCulture), Int32.Parse(s[2].Split('/')[2], CultureInfo.InvariantCulture), Int32.Parse(s[3].Split('/')[2], CultureInfo.InvariantCulture) };
+                                nI = new uint[] { UInt32.Parse(s[1].Split('/')[2], CultureInfo.InvariantCulture), UInt32.Parse(s[2].Split('/')[2], CultureInfo.InvariantCulture), UInt32.Parse(s[3].Split('/')[2], CultureInfo.InvariantCulture) };
                             }
 
                         }else if (m.Normals.Count > 0)
                         {
-                            nI = new int[] { Int32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture), Int32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture), Int32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) };
+                            nI = new uint[] { UInt32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture), UInt32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture), UInt32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) };
                         }
                         m.Faces.Add(new Face(vI, nI, tI));
                         break;

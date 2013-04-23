@@ -15,18 +15,21 @@ namespace SimProvider.Graphics
         public VertexBufferObject(Model m)
         {
             Vertex[] vertices = new Vertex[m.Vertices.Count];
-            int[] indices = new int[m.Faces.Count];
+            uint[] indices = new uint[m.Faces.Count*3];
             List<Face> f = m.Faces;
             for (int a = 0; a < m.Faces.Count; a++){
                 for (int i = 0; i < f[a].vIndices.Length; i++)
                 {
                     Vertex v = new Vertex();
-                    v.Position = m.Vertices[f[a].vIndices[i]-1];
-                    v.Normal = m.Normals[f[a].nIndices[i]-1];
-                    v.TextureCoordinate = m.TexCoords[f[a].tIndices[i]-1];
+                    v.Position = m.Vertices[(int)f[a].vIndices[i]-1];
+                    v.Normal = m.Normals[(int)f[a].nIndices[i] - 1];
+                    v.TextureCoordinate = m.TexCoords[(int)f[a].tIndices[i] - 1];
                     vertices[f[a].vIndices[i]-1] = v;
-                    indices[a] = f[a].vIndices[i];
+                    
                 }
+                indices[a*3] = f[a].vIndices[0];
+                indices[a*3+1] = f[a].vIndices[1];
+                indices[a*3+2] = f[a].vIndices[2];
             }
 
             ids = new int[2];
