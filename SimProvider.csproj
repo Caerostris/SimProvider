@@ -64,6 +64,30 @@
     <Compile Include="Graphics\Model.cs" />
     <Compile Include="src\SimProvider.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
+    <Compile Include="Window\ChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\ChartWindow.Designer.cs">
+      <DependentUpon>ChartWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\MainChartWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\MainChartWindow.Designer.cs">
+      <DependentUpon>MainChartWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\VirtualSimulation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\VirtualSimulation.Designer.cs">
+      <DependentUpon>VirtualSimulation.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Graphics\GLTest.resx">
