@@ -23,7 +23,7 @@ namespace SimProvider.Graphics
         }
         public void addAttribute(string name)
         {
-            attributes.Add(name, GL.GetUniformLocation(id, name));
+            attributes.Add(name, GL.GetAttribLocation(id, name));
         }
         public Dictionary<string, int> Uniforms
         {

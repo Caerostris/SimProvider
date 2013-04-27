@@ -1,8 +1,11 @@
-﻿#version 110
+﻿#version 330
 uniform sampler2D texture;
+uniform vec3 lightsrc;
+uniform float lightstr;
 
-varying vec2 texcoord;
-
+in vec2 texcoord;
+in vec3 n;
+out vec4 FragColor;
 void main(){
-	gl_FragColor=texture2D(texture,texcoord);
+	FragColor = texture2D(texture,texcoord)*max(dot(lightsrc,n),0.0)*lightstr/2;
 }

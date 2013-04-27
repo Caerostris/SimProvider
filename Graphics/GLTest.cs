@@ -17,8 +17,11 @@ namespace SimProvider.Graphics
         Texture t1;
         Texture t2;
         BasicShader sp;
-        Model m;
-        VertexBufferObject vbo;
+        Mesh m1;
+        Mesh m2;
+        VertexBufferObject vbo1;
+        VertexBufferObject vbo2;
+        Camera c;
         public GLTest()
         {
             InitializeComponent();
@@ -27,22 +30,47 @@ namespace SimProvider.Graphics
         private void GLTest_Load(object sender, EventArgs e)
         {
             initGL();
-            m = OBJLoader.loadModelfromOBJ("Data/t.obj");
-            t1 = Texture.fromFile("Data/test1.png");
+            m1 = OBJLoader.loadModelfromOBJ("Data/m.obj")[0];
+            m2 = OBJLoader.loadModelfromOBJ("Data/k.obj")[0];
+            t1 = Texture.fromFile("Data/HMap.png");
             t2 = Texture.fromFile("Data/test2.png");
             sp = BasicShader.create("Data/Shader/basic.v", "Data/Shader/basic.f");
             sp.addUniform("texture");
+            sp.addUniform("lightsrc");
+            sp.addUniform("lightstr");
             sp.addAttribute("position");
             sp.addAttribute("normal");
-        //    sp.addAttribute("texCoord");
-            vbo = new VertexBufferObject(m);
-            
+            sp.addUniform("modelViewProjection");
+
+            sp.addAttribute("texCoord");
+            //GL.BindFragDataLocation(sp.ID, 0, "FragColor");
+            vbo1 = new VertexBufferObject(m1);
+            vbo2 = new VertexBufferObject(m2);
+            c = new Camera(MathHelper.DegreesToRadians(75), glc.Width / glc.Height, 0.001f, 1000f);
+            glc.Resize += resize;
+            this.FormClosing += GLTest_FormClosing;
+        }
+
+        void GLTest_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            vbo1.delete();
+            vbo2.delete();
+            t1.delete();
+            t2.delete();
+        }
+
+        private void resize(object sender, EventArgs e)
+        {
+            GL.Viewport(0, 0, glc.Width, glc.Height);
         }
 
 
         private void initGL()
         {
+            GL.Viewport(0, 0, glc.Width, glc.Height);
+            GL.ClearColor(0.0f, 0.2f, 0.3f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
+            GL.Enable(EnableCap.CullFace);
         }
 
 
@@ -51,39 +79,33 @@ namespace SimProvider.Graphics
             render();
         }
 
-        private void render(){
-            ErrorCode e;
+
+        private void render()
+        {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            ErrorCode e;
+            
+            rm(vbo1, 0, 0, 0);
+            rm(vbo2, 1, 0, -5);
+            rm(vbo2, 1, 0, 5);
+            while ((e = GL.GetError()) != ErrorCode.NoError)
+            {
+                System.Console.WriteLine(e);
+            }
+            glc.SwapBuffers();
+        }
+        private void rm(VertexBufferObject vbo, float x, float y ,float z){
             sp.use();
+            GL.Uniform3(sp.Uniforms["lightsrc"], new Vector3(0f, 10f, 3f));
+            GL.Uniform1(sp.Uniforms["lightstr"], 0.5f);
+            Matrix4 m = (Matrix4.Scale(0.8f) * Matrix4.CreateRotationY(0.2f) * Matrix4.CreateTranslation(x, y, z)) * Matrix4.LookAt(0.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f) * Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), glc.Width / glc.Height, 0.01f, 1000.0f);
+            GL.UniformMatrix4(sp.Uniforms["modelViewProjection"], false, ref m);
 
             GL.ActiveTexture(TextureUnit.Texture0);
             t1.bind();
             GL.Uniform1(sp.Uniforms["texture"], 0);
-            GL.BindBuffer(BufferTarget.ArrayBuffer,vbo.VertexBuffer);
-            GL.VertexAttribPointer(
-                sp.Attributes["position"],
-                3,
-                VertexAttribPointerType.Float, 
-                false, 
-                Vertex.SizeInBytes,
-                new IntPtr(0));
-            GL.EnableVertexAttribArray(sp.Attributes["position"]);
-            GL.VertexAttribPointer(
-                sp.Attributes["normal"],
-                3,
-                VertexAttribPointerType.Float,
-                false,
-                Vertex.SizeInBytes,
-                new IntPtr(12));
-            GL.EnableVertexAttribArray(sp.Attributes["normal"]);
-            GL.BindBuffer(BufferTarget.ElementArrayBuffer, vbo.ElementBuffer);
-            GL.DrawElements(BeginMode.TriangleStrip, vbo.ElementCount, DrawElementsType.UnsignedInt, 0);
-            GL.DisableVertexAttribArray(sp.Attributes["position"]);
-            GL.DisableVertexAttribArray(sp.Attributes["normal"]);
-            while((e = GL.GetError())!=ErrorCode.NoError){
-                System.Console.WriteLine(e);
-            }
-            glc.SwapBuffers();
+            vbo.draw();
+            GL.UseProgram(0);
         }
     }
 }

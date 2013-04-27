@@ -1,24 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+//using OpenTK;
+//using OpenTK.Graphics.OpenGL;
 
-namespace SimProvider.Graphics
-{
-    public class Model
-    {
-        private List<Vector3> vertices = new List<Vector3>();
-        private List<Vector3> normals = new List<Vector3>();
-        private List<Vector2> texCoords = new List<Vector2>();
-        private List<Face> faces = new List<Face>();
+//namespace SimProvider.Graphics
+//{
+//    public class VBOModel
+//    {
+//        private List<Child> childs;
+//        public List<Child> Childs
+//        {
+//            get { return childs; }
+//        }
+//        public VBOModel(Child[] childs)
+//        {
+//            this.childs = new List<Child>();
+//            this.childs.AddRange(childs);
+//        }
 
-        public string Name { get; set; }
-        public List<Vector3> Vertices { get { return vertices; } set { vertices = value; } }
-        public List<Vector3> Normals { get { return normals; } set { normals = value; } }
-        public List<Vector2> TexCoords { get { return texCoords; } set { texCoords = value; } }
-        public List<Face> Faces { get { return faces; } set { faces = value; } }
-    }
-}
+//        public class Child
+//        {
+//            VertexBufferObject vbo;
+//            Matrix4 transform;
+//            VBOModel parent;
+//            public VertexBufferObject VBO { get { return vbo; } }
+//            public Matrix4 Transform { get { return transform; } set { transform = value; } }
+//            public VBOModel Parent { get { return parent; } }
+//            public Child(VertexBufferObject vbo, Matrix4 transform, VBOModel parent)
+//            {
+//                this.vbo = vbo;
+//                this.transform = transform;
+//                this.parent = parent;
+//            }
+//        }
+//        public void render()
+//        {
+//            foreach (Child c in childs)
+//            {
+//            }
+//        }
+//    }
+//}

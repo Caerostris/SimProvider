@@ -11,26 +11,41 @@ namespace SimProvider.Graphics
     public class ShaderProgram
     {
         protected int id;
-        protected int vertexShader;
-        protected int fragmentShader;
 
         protected ShaderProgram(string vs, string fs)
         {
+            int vertexShader;
+            int fragmentShader;
+            //---------------------------------------------------------
             vertexShader = GL.CreateShader(ShaderType.VertexShader);
             GL.ShaderSource(vertexShader, vs);
             GL.CompileShader(vertexShader);
-            System.Console.WriteLine(GL.GetShaderInfoLog(vertexShader));
-            
+
+            string il = GL.GetShaderInfoLog(vertexShader);
+            if (!String.IsNullOrWhiteSpace(il))
+                System.Console.WriteLine(il);
+            //---------------------------------------------------------
             fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
             GL.ShaderSource(fragmentShader, fs);
             GL.CompileShader(fragmentShader);
-            System.Console.WriteLine(GL.GetShaderInfoLog(fragmentShader));
 
+            il = GL.GetShaderInfoLog(fragmentShader);
+            if (!String.IsNullOrWhiteSpace(il))
+                System.Console.WriteLine(il);
+            //---------------------------------------------------------
             id = GL.CreateProgram();
             GL.AttachShader(id, vertexShader);
             GL.AttachShader(id, fragmentShader);
             GL.LinkProgram(id);
-            System.Console.WriteLine(GL.GetProgramInfoLog(id));
+
+            il = GL.GetProgramInfoLog(id);
+            if (!String.IsNullOrWhiteSpace(il))
+                System.Console.WriteLine(il);
+            //---------------------------------------------------------
+            GL.DetachShader(id, vertexShader);
+            GL.DetachShader(id, fragmentShader);
+            GL.DeleteShader(vertexShader);
+            GL.DeleteShader(fragmentShader);
         }
 
         public void use()

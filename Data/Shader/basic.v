@@ -1,11 +1,16 @@
-﻿#version 110
-attribute vec3 position;
-attribute vec3 normal;
+﻿#version 330
 
-varying vec2 texcoord;
+uniform mat4 modelViewProjection;
+layout(location = 0) in vec3 position;
+layout(location = 1) in vec3 normal;
+layout(location = 2) in vec2 texCoord;
 
+out vec2 texcoord;
+out vec3 n;
 void main()
 {
-	gl_Position = vec4(position,1.0);
-	texcoord = position.xy;
+	vec4 v =  vec4(position,1.0);
+	gl_Position = modelViewProjection * v;
+	texcoord = texCoord;
+	n = normal;
 }

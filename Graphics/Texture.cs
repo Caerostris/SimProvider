@@ -26,7 +26,7 @@ namespace SimProvider.Graphics
 
             GL.BindTexture(TextureTarget.Texture2D, t.id);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-            OpenTK.Graphics.OpenGL.PixelFormat.Rgba, PixelType.UnsignedByte, data.Scan0);
+            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             bmp.UnlockBits(data);
             bmp.Dispose();
 

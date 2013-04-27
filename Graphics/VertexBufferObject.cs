@@ -12,7 +12,7 @@ namespace SimProvider.Graphics
     {
         int[] ids;
         int elemets;
-        public VertexBufferObject(Model m)
+        public VertexBufferObject(Mesh m)
         {
             Vertex[] vertices = new Vertex[m.Vertices.Count];
             uint[] indices = new uint[m.Faces.Count*3];
@@ -21,10 +21,10 @@ namespace SimProvider.Graphics
                 for (int i = 0; i < f[a].vIndices.Length; i++)
                 {
                     Vertex v = new Vertex();
-                    v.Position = m.Vertices[(int)f[a].vIndices[i]-1];
-                    v.Normal = m.Normals[(int)f[a].nIndices[i] - 1];
-                    v.TextureCoordinate = m.TexCoords[(int)f[a].tIndices[i] - 1];
-                    vertices[f[a].vIndices[i]-1] = v;
+                    v.Position = m.Vertices[(int)f[a].vIndices[i]];
+                    v.Normal = m.Normals[(int)f[a].nIndices[i]];
+                    v.TextureCoordinate = m.TexCoords[(int)f[a].tIndices[i]];
+                    vertices[f[a].vIndices[i]] = v;
                     
                 }
                 indices[a*3] = f[a].vIndices[0];
@@ -63,6 +63,43 @@ namespace SimProvider.Graphics
         public int ElementCount
         {
             get { return elemets; }
+        }
+
+        public void draw()
+        {
+            GL.BindBuffer(BufferTarget.ArrayBuffer, VertexBuffer);
+            GL.VertexAttribPointer(
+                0,
+                3,
+                VertexAttribPointerType.Float,
+                false,
+                Vertex.SizeInBytes,
+                new IntPtr(0));
+            GL.EnableVertexAttribArray(0);
+
+            GL.VertexAttribPointer(
+                1,
+                3,
+                VertexAttribPointerType.Float,
+                false,
+                Vertex.SizeInBytes,
+                new IntPtr(12));
+            GL.EnableVertexAttribArray(1);
+
+            GL.VertexAttribPointer(
+                2,
+                2,
+                VertexAttribPointerType.Float,
+                false,
+                Vertex.SizeInBytes,
+                new IntPtr(24));
+            GL.EnableVertexAttribArray(2);
+
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, ElementBuffer);
+            GL.DrawElements(BeginMode.Triangles, ElementCount * 3, DrawElementsType.UnsignedInt, 0);
+            GL.DisableVertexAttribArray(0);
+            GL.DisableVertexAttribArray(1);
+            GL.DisableVertexAttribArray(2);
         }
     }
 }

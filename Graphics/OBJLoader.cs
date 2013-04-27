@@ -11,28 +11,34 @@ namespace SimProvider.Graphics
 {
     public static class OBJLoader
     {
-        public static Model loadModelfromOBJ(string path)
+        public static Mesh[] loadModelfromOBJ(string path)
         {
             if (!File.Exists(path))
                 return null;
 
             System.IO.StreamReader sr = new StreamReader(path);
-           
-            List<Model> models = new List<Model>();
+
+            List<Mesh> meshes = new List<Mesh>();
             //List<Vector3> vertieces = new List<Vector3>();
             //List<Vector3> normals = new List<Vector3>();
             //List<Vector2> texCoords = new List<Vector2>();
             //List<Face> faces = new List<Face>(); 
-            Model m = null;
+            Mesh m = null;
             while (!sr.EndOfStream)
             {
                 string[] s = sr.ReadLine().Split(' ');
 
-                switch (s[0]) {
+                switch (s[0])
+                {
                     case "o":
-                        m = new Model();
+                        m = new Mesh();
                         m.Name = s[1];
-                        models.Add(m);
+                        meshes.Add(m);
+                        break;
+                    case "g":
+                        m = new Mesh();
+                        m.Name = s[1];
+                        meshes.Add(m);
                         break;
                     case "v":
                         m.Vertices.Add(new Vector3(Single.Parse(s[1], CultureInfo.InvariantCulture), Single.Parse(s[2], CultureInfo.InvariantCulture), Single.Parse(s[3], CultureInfo.InvariantCulture)));
@@ -44,20 +50,21 @@ namespace SimProvider.Graphics
                         m.TexCoords.Add(new Vector2(Single.Parse(s[1], CultureInfo.InvariantCulture), Single.Parse(s[2], CultureInfo.InvariantCulture)));
                         break;
                     case "f":
-                        uint[] vI = new uint[] { UInt32.Parse(s[1].Split('/')[0], CultureInfo.InvariantCulture), UInt32.Parse(s[2].Split('/')[0], CultureInfo.InvariantCulture), UInt32.Parse(s[3].Split('/')[0], CultureInfo.InvariantCulture) };
+                        uint[] vI = new uint[] { UInt32.Parse(s[1].Split('/')[0], CultureInfo.InvariantCulture) - 1, UInt32.Parse(s[2].Split('/')[0], CultureInfo.InvariantCulture) - 1, UInt32.Parse(s[3].Split('/')[0], CultureInfo.InvariantCulture) - 1 };
                         uint[] nI = new uint[] { 0, 0, 0 };
                         uint[] tI = new uint[] { 0, 0, 0 };
                         if (m.TexCoords.Count > 0)
                         {
-                            tI = new uint[] { UInt32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture), UInt32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture), UInt32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) };
+                            tI = new uint[] { UInt32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture) - 1, UInt32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture) - 1, UInt32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) - 1 };
                             if (m.Normals.Count > 0)
                             {
-                                nI = new uint[] { UInt32.Parse(s[1].Split('/')[2], CultureInfo.InvariantCulture), UInt32.Parse(s[2].Split('/')[2], CultureInfo.InvariantCulture), UInt32.Parse(s[3].Split('/')[2], CultureInfo.InvariantCulture) };
+                                nI = new uint[] { UInt32.Parse(s[1].Split('/')[2], CultureInfo.InvariantCulture) - 1, UInt32.Parse(s[2].Split('/')[2], CultureInfo.InvariantCulture) - 1, UInt32.Parse(s[3].Split('/')[2], CultureInfo.InvariantCulture) - 1 };
                             }
 
-                        }else if (m.Normals.Count > 0)
+                        }
+                        else if (m.Normals.Count > 0)
                         {
-                            nI = new uint[] { UInt32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture), UInt32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture), UInt32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) };
+                            nI = new uint[] { UInt32.Parse(s[1].Split('/')[1], CultureInfo.InvariantCulture) - 1, UInt32.Parse(s[2].Split('/')[1], CultureInfo.InvariantCulture) - 1, UInt32.Parse(s[3].Split('/')[1], CultureInfo.InvariantCulture) - 1 };
                         }
                         m.Faces.Add(new Face(vI, nI, tI));
                         break;
@@ -65,7 +72,7 @@ namespace SimProvider.Graphics
                         break;
                 }
             }
-            return m;
+            return meshes.ToArray();
         }
     }
 }
