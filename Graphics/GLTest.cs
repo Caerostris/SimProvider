@@ -34,7 +34,7 @@ namespace SimProvider.Graphics
             m1 = OBJLoader.loadModelfromOBJ("Data/w.obj")[0];
             m2 = OBJLoader.loadModelfromOBJ("Data/k.obj")[0];
             t1 = Texture.fromFile("Data/test.png");
-            t2 = Texture.fromFile("Data/test2.png");
+            t2 = Texture.fromFile("Data/HMap.png");
             sp = BasicShader.create("Data/Shader/basic.v", "Data/Shader/basic.f");
             sp.addUniform("texture");
             sp.addUniform("lightsrc");
@@ -86,16 +86,16 @@ namespace SimProvider.Graphics
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             ErrorCode e;
             
-            rm(vbo1, 0, 0, 0);
-            rm(vbo2, 1, 0, -5);
-            rm(vbo2, 1, 0, 5);
+            rm(vbo1, 0, 0, 0,t1);
+            rm(vbo2, 1, 0, -5,t2);
+            rm(vbo2, 1, 0, 5,t2);
             while ((e = GL.GetError()) != ErrorCode.NoError)
             {
                 System.Console.WriteLine(e);
             }
             glc.SwapBuffers();
         }
-        private void rm(VertexBufferObject vbo, float x, float y ,float z){
+        private void rm(VertexBufferObject vbo, float x, float y ,float z,Texture t){
             sp.use();
             ls = Vector4.Transform(ls,Matrix4.CreateRotationX(0.002f)*Matrix4.CreateRotationZ(0.001f));
             GL.Uniform4(sp.Uniforms["lightsrc"], ls);
@@ -104,7 +104,7 @@ namespace SimProvider.Graphics
             GL.UniformMatrix4(sp.Uniforms["modelViewProjection"], false, ref m);
 
             GL.ActiveTexture(TextureUnit.Texture0);
-            t1.bind();
+            t.bind();
             GL.Uniform1(sp.Uniforms["texture"], 0);
             vbo.draw();
             GL.UseProgram(0);
