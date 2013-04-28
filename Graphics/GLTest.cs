@@ -22,6 +22,7 @@ namespace SimProvider.Graphics
         VertexBufferObject vbo1;
         VertexBufferObject vbo2;
         Camera c;
+        Vector4 ls = new Vector4(0,10,0,1);
         public GLTest()
         {
             InitializeComponent();
@@ -96,7 +97,8 @@ namespace SimProvider.Graphics
         }
         private void rm(VertexBufferObject vbo, float x, float y ,float z){
             sp.use();
-            GL.Uniform3(sp.Uniforms["lightsrc"], new Vector3(0f, 10f, 3f));
+            ls = Vector4.Transform(ls,Matrix4.CreateRotationX(0.02f)*Matrix4.CreateRotationZ(0.01f));
+            GL.Uniform4(sp.Uniforms["lightsrc"], ls);
             GL.Uniform1(sp.Uniforms["lightstr"], 0.5f);
             Matrix4 m = (Matrix4.Scale(0.8f) * Matrix4.CreateRotationY(0.2f) * Matrix4.CreateTranslation(x, y, z)) * Matrix4.LookAt(0.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f) * Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), glc.Width / glc.Height, 0.01f, 1000.0f);
             GL.UniformMatrix4(sp.Uniforms["modelViewProjection"], false, ref m);
