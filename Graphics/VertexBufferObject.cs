@@ -14,35 +14,29 @@ namespace SimProvider.Graphics
         int elemets;
         public VertexBufferObject(Mesh m)
         {
-            Vertex[] vertices = new Vertex[m.Vertices.Count];
-            uint[] indices = new uint[m.Faces.Count*3];
-            List<Face> f = m.Faces;
-            for (int a = 0; a < m.Faces.Count; a++){
-                for (int i = 0; i < f[a].vIndices.Length; i++)
-                {
+            List<Vertex> vertices = new List<Vertex>(m.Faces.Count*3);
+            List<int> indices = new List<int>(m.Faces.Count);
+            foreach (Face f in m.Faces){
+                for (int i = 0; i < f.vIndices.Length;i++){
                     Vertex v = new Vertex();
-                    v.Position = m.Vertices[(int)f[a].vIndices[i]];
-                    v.Normal = m.Normals[(int)f[a].nIndices[i]];
-                    v.TextureCoordinate = m.TexCoords[(int)f[a].tIndices[i]];
-                    vertices[f[a].vIndices[i]] = v;
-                    
+                    v.Position = m.Vertices[(int)f.vIndices[i]];
+                    v.Normal= m.Normals[(int)f.nIndices[i]];
+                    v.TextureCoordinate = m.TexCoords[(int)f.tIndices[i]];
+                    vertices.Add(v);
+                    indices.Add(vertices.Count - 1);
                 }
-                indices[a*3] = f[a].vIndices[0];
-                indices[a*3+1] = f[a].vIndices[1];
-                indices[a*3+2] = f[a].vIndices[2];
             }
-
             ids = new int[2];
             GL.GenBuffers(2, ids);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer,ids[0]);
-            GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(Vertex.SizeInBytes*vertices.Length), vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, new IntPtr(Vertex.SizeInBytes*vertices.Count), vertices.ToArray(), BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ids[1]);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(sizeof(int)*indices.Length), indices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, new IntPtr(sizeof(int) * indices.Count), indices.ToArray(), BufferUsageHint.StaticDraw);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, 0);
-            elemets = indices.Length / 3;
+            elemets = indices.Count / 3;
         }
 
         public void delete()

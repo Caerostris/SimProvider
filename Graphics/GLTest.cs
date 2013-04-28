@@ -31,9 +31,9 @@ namespace SimProvider.Graphics
         private void GLTest_Load(object sender, EventArgs e)
         {
             initGL();
-            m1 = OBJLoader.loadModelfromOBJ("Data/m.obj")[0];
+            m1 = OBJLoader.loadModelfromOBJ("Data/w.obj")[0];
             m2 = OBJLoader.loadModelfromOBJ("Data/k.obj")[0];
-            t1 = Texture.fromFile("Data/HMap.png");
+            t1 = Texture.fromFile("Data/test.png");
             t2 = Texture.fromFile("Data/test2.png");
             sp = BasicShader.create("Data/Shader/basic.v", "Data/Shader/basic.f");
             sp.addUniform("texture");
@@ -97,7 +97,7 @@ namespace SimProvider.Graphics
         }
         private void rm(VertexBufferObject vbo, float x, float y ,float z){
             sp.use();
-            ls = Vector4.Transform(ls,Matrix4.CreateRotationX(0.02f)*Matrix4.CreateRotationZ(0.01f));
+            ls = Vector4.Transform(ls,Matrix4.CreateRotationX(0.002f)*Matrix4.CreateRotationZ(0.001f));
             GL.Uniform4(sp.Uniforms["lightsrc"], ls);
             GL.Uniform1(sp.Uniforms["lightstr"], 0.5f);
             Matrix4 m = (Matrix4.Scale(0.8f) * Matrix4.CreateRotationY(0.2f) * Matrix4.CreateTranslation(x, y, z)) * Matrix4.LookAt(0.0f, 1.0f, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f) * Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), glc.Width / glc.Height, 0.01f, 1000.0f);
