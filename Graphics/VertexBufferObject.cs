@@ -22,6 +22,7 @@ namespace SimProvider.Graphics
                     v.Position = m.Vertices[(int)f.vIndices[i]];
                     v.Normal= m.Normals[(int)f.nIndices[i]];
                     v.TextureCoordinate = m.TexCoords[(int)f.tIndices[i]];
+
                     vertices.Add(v);
                     indices.Add(vertices.Count - 1);
                 }

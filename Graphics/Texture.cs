@@ -12,6 +12,7 @@ namespace SimProvider.Graphics
     public class Texture
     {
         private int id;
+        public int ID { get { return id; } }
         private Texture() { }
         public static Texture fromFile(string path)
         {
@@ -30,6 +31,22 @@ namespace SimProvider.Graphics
             bmp.UnlockBits(data);
             bmp.Dispose();
 
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            return t;
+        }
+        public static Texture create(int width, int height)
+        {
+            Texture t = new Texture();
+            t.id = GL.GenTexture();
+            GL.BindTexture(TextureTarget.Texture2D, t.id);
+            byte[] data = new byte[width * height * 4];
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
+            OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data);
+            
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
