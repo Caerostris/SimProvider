@@ -15,6 +15,17 @@ namespace SimProvider.Graphics
         private List<Vector2> texCoords = new List<Vector2>();
         private List<Face> faces = new List<Face>();
 
+        public Mesh()
+        {
+        }
+        public Mesh(List<Vector3> vertices, List<Vector3> normals, List<Vector2> texCoords, List<Face> faces)
+        {
+            this.vertices = vertices;
+            this.normals = normals;
+            this.texCoords = texCoords;
+            this.faces = faces;
+        }
+
         public string Name { get; set; }
         public List<Vector3> Vertices { get { return vertices; } set { vertices = value; } }
         public List<Vector3> Normals { get { return normals; } set { normals = value; } }
