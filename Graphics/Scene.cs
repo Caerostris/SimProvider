@@ -63,7 +63,7 @@ namespace SimProvider.Graphics
             view = Matrix4.LookAt(new Vector3(0, 2, 2), new Vector3(0, 1.5f, 0), Vector3.UnitY);
             projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), wdh / hgt, 0.1f, 200.0f);
            
-            depthProjection = Matrix4.CreateOrthographicOffCenter(-30, 30, -30, 30, -10, 200);
+            depthProjection = Matrix4.CreateOrthographicOffCenter(-30, 30, -30, 30, -10, 50);
             depthView = Matrix4.LookAt(pointLightSrc, pointLightSrc + pointLightDir, Vector3.UnitY);
 
             //load shader

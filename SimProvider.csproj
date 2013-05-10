@@ -115,7 +115,7 @@
     <Content Include="Data\Shader\basic.v">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Textures\grass.png">
+    <Content Include="Data\Textures\Kopie von street-asphalt.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Textures\test.png">
