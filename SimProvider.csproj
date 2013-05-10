@@ -105,6 +105,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Textur\Grass.jpg" />
+    <Content Include="Content\Textur\Straße.png" />
     <Content Include="Data\HMap.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -173,6 +175,8 @@
     <Content Include="Data\Models\tree1.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Content\Model\Barke.obj" />
+    <None Include="Content\Model\Motorad.obj" />
     <None Include="Data\w.mtl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
