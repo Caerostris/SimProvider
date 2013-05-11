@@ -108,7 +108,6 @@ namespace SimProvider.Graphics
             s.Update(et, OpenTK.Input.Mouse.GetState().WheelPrecise*2);
             s.Render();
             glc.SwapBuffers();
-
         }
     }
 }

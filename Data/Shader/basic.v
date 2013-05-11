@@ -27,6 +27,6 @@ void main()
 	shadowcoord = (bias*(dprojection * dview * model)) * v;
 	
 	//Per pixel lighting
-	n = normal * mat3(model);
-	pos = position * mat3(model);
+	n =  mat3(model) * normal;
+	pos = mat3(model) * position;
 }

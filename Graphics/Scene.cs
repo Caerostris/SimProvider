@@ -18,7 +18,7 @@ namespace SimProvider.Graphics
 
         //Scene objects
         private List<SceneObject> objects;
-        private List<SceneObject> newObjects;
+        private List<string[]> newObjects;
         private List<SceneObject> street;
         private SceneObject skyDome;
 
@@ -61,7 +61,7 @@ namespace SimProvider.Graphics
 
             //init matrices
             view = Matrix4.LookAt(new Vector3(0, 2, 2), new Vector3(0, 1.5f, 0), Vector3.UnitY);
-            projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), wdh / hgt, 0.1f, 200.0f);
+            projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), wdh / hgt, 0.1f, 300.0f);
            
             depthProjection = Matrix4.CreateOrthographicOffCenter(-30, 30, -30, 30, -10, 50);
             depthView = Matrix4.LookAt(pointLightSrc, pointLightSrc + pointLightDir, Vector3.UnitY);
@@ -95,13 +95,14 @@ namespace SimProvider.Graphics
         {
             skyDome = new SceneObject(Vector3.Zero, Vector3.Zero, new Vector3(100, 100, 100), "sky", "sky");
 
+            newObjects = new List<string[]>();
+            newObjects.Add(new string[]{"tree1","tree1"});
+            newObjects.Add(new string[] { "test", "tree1" });
+
             objects = new List<SceneObject>();
             for (int i = 0; i < 100; i++)
             {
-                if (r.Next(10) == 1)
-                    objects.Add(new SceneObject(new Vector3(3, 0, -i * 3), Vector3.Zero, new Vector3(1, 1, 1f), "tree1", "tree1"));
-                if (r.Next(10) == 1)
-                    objects.Add(new SceneObject(new Vector3(-3, 0, -i * 3), Vector3.Zero, new Vector3(1, 1, 1f), "tree1", "tree1"));
+                addNewObject(i * 5);
             }
 
             street = new List<SceneObject>();
@@ -109,12 +110,6 @@ namespace SimProvider.Graphics
             {
                 street.Add(new SceneObject(new Vector3(0, 0, -i * 2), Vector3.Zero, new Vector3(1, 1, 1f), "street", "street-asphalt"));
             }
-
-            newObjects = new List<SceneObject>();
-            newObjects.Add(new SceneObject(new Vector3(-3, 0, -300), Vector3.Zero, new Vector3(1, 1, 1), "tree1", "tree1"));
-            newObjects.Add(new SceneObject(new Vector3(3, 0, -300), Vector3.Zero, new Vector3(1, 1, 1), "tree1", "tree1"));
-            newObjects.Add(new SceneObject(new Vector3(3, 0, -300), Vector3.Zero, new Vector3(1, 1, 1), "test", "tree1"));
-            newObjects.Add(new SceneObject(new Vector3(-3, 0, -300), Vector3.Zero, new Vector3(1, 1, 1), "test", "tree1"));
         }
 
         private void load()
@@ -170,7 +165,7 @@ namespace SimProvider.Graphics
             for (int i = objects.Count - 1; i >= 0; i--)
             {
                 objects[i].Position += new Vector3(0, 0, velocity * elapsedTime);
-                if (objects[i].Position.Z > 5)
+                if (objects[i].Position.Z > 10)
                     objects.RemoveAt(i);
             }
             street[0].Position += new Vector3(0, 0, velocity * elapsedTime);
@@ -184,17 +179,30 @@ namespace SimProvider.Graphics
                 }
             }
             addc += elapsedTime * velocity * r.NextDouble();
-            if (addc > 10)
+            if (addc > 1)
             {
-                addc -= 10;
-                objects.Add(newObjects[r.Next(newObjects.Count)].Clone);
+                addc -= 1;
+                addNewObject(300);
             }
         }
+
+        private void addNewObject(int o)
+        {
+            string[] s = newObjects[r.Next(newObjects.Count)];
+            Vector3 pos = new Vector3((float)r.NextDouble() * 40 + 3 , 0, (float)r.NextDouble() * -50 - o);
+            if (r.Next(2) == 1)
+                pos.X = -pos.X;
+            Vector3 rotation = new Vector3(0, (float)r.NextDouble() * MathHelper.TwoPi, 0);
+            float f = (float)r.NextDouble() + 0.5f;
+            Vector3 scale = new Vector3(f, f, f);
+            objects.Add(new SceneObject(pos, rotation, scale, s[0], s[1]));
+        }
+
         public void Render()
         {
             
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, framebuffer);
-            //GL.CullFace(CullFaceMode.Front);
+            GL.CullFace(CullFaceMode.Front);
             GL.Clear(ClearBufferMask.DepthBufferBit);
             GL.Viewport(0, 0, depthTextureWidth, depthTextureWidth);
             //Render ShadowMap
@@ -205,7 +213,7 @@ namespace SimProvider.Graphics
             //renderSceneObject(skyDome);
             
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
-            //GL.CullFace(CullFaceMode.Back);
+            GL.CullFace(CullFaceMode.Back);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Viewport(0, 0, width, height);
             //Render Objects
@@ -213,7 +221,7 @@ namespace SimProvider.Graphics
                 renderSceneObject(so);
             foreach (SceneObject so in street)
                 renderSceneObject(so);
-            renderSceneObject(skyDome);
+           // renderSceneObject(skyDome);
 
 #if DEBUG
             ps.use();
