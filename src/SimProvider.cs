@@ -69,12 +69,33 @@ namespace SimProvider
         Tire tire;
         double surface = Surface.crrAsphalt;
         double velocity = 0;
+		public double Veclocity
+		{
+			get
+			{
+				return this.velocity;
+			}
+		}
+
         double acceleration = 0;
+		public double Acceleration {
+			get
+			{
+				return this.acceleration;
+			}
+		}
         double weight = 198;
         double bikeSurface = 0.8;
         double tra = 1; //transmission ratio of the axle drive
         double trs = 3.15; //transmission ratio of the scarf gear
         double distanceTraveled = 0;
+
+		public Bike ()
+		{
+			this.tire = new Tire();
+			this.engine = new Engine();
+			this.battery = new Battery();
+		}
 
         public void update(double time)
         {
@@ -84,7 +105,8 @@ namespace SimProvider
             double acceleration = actualForceMoving / this.weight;
 
             this.acceleration = acceleration;
-            this.velocity = this.velocity += acceleration;
+			this.velocity = this.velocity + (this.acceleration * time);
+            //this.velocity = this.velocity + acceleration;
             this.distanceTraveled += this.velocity;
         }
     }
