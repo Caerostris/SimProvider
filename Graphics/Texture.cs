@@ -23,6 +23,7 @@ namespace SimProvider.Graphics
             t.id = GL.GenTexture();
             
             Bitmap bmp = new Bitmap(path);
+            bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             GL.BindTexture(TextureTarget.Texture2D, t.id);
@@ -61,6 +62,17 @@ namespace SimProvider.Graphics
         public void delete()
         {
             GL.DeleteTexture(id);
+        }
+        public static Bitmap imageFromFramebuffer(int width, int height)
+        {
+            Bitmap bmp = new Bitmap(width, height);
+            BitmapData bd = bmp.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+            GL.ReadPixels(0, 0, width, height, OpenTK.Graphics.OpenGL.PixelFormat.DepthComponent, PixelType.Float, bd.Scan0);
+            bmp.UnlockBits(bd);
+
+            bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
+            return bmp;
+            
         }
 
     }
