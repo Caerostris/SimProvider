@@ -1,0 +1,26 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="src/SimProvider.cs">
+    <Files>
+      <File FileName="Program.cs" Line="18" Column="17" />
+      <File FileName="src/SimProvider.cs" Line="90" Column="47" />
+      <File FileName="SimTestChart/CSVExport.cs" Line="22" Column="4" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="SimProvider" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="src" expanded="True">
+              <Node name="SimProvider.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
