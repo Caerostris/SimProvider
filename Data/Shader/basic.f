@@ -29,7 +29,7 @@ void main(){
 	float shadowfac = 1.0;
 	for (int i=0;i<9;i++){
 		if (texture2D(shadowmap, shadowcoord.xy + poissonDisk[i]/1000.0).z + b  < shadowcoord.z){
-			shadowfac -= 0.1;
+			shadowfac -= 0.07;
 			}
 	}
 	vec3 lightdir = normalize(pos - lightsrc);

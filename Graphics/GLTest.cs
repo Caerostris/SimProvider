@@ -80,7 +80,7 @@ namespace SimProvider.Graphics
         private void initGL()
         {
             GL.Viewport(0, 0, glc.Width, glc.Height);
-            GL.ClearColor(0.0f, 0.2f, 0.3f, 1.0f);
+            GL.ClearColor(0.0f, 0.8f, 0.9f, 1.0f);
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);
         }

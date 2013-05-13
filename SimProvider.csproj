@@ -115,6 +115,15 @@
     <Content Include="Data\Shader\basic.v">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Textures\street-asphalt2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Textures\street-asphalt3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Textures\street-asphalt4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Textures\Kopie von street-asphalt.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

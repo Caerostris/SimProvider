@@ -19,8 +19,10 @@ namespace SimProvider.Graphics
         //Scene objects
         private List<SceneObject> objects;
         private List<string[]> newObjects;
+        private List<string[]> streetSegments;
         private List<SceneObject> street;
         private SceneObject skyDome;
+
 
         //Logics
         private double addc = 0.0;
@@ -35,8 +37,9 @@ namespace SimProvider.Graphics
                                             0.0f, 0.0f, 0.5f, 0.0f,
                                             0.5f, 0.5f, 0.5f, 1.0f);
         //Light
-        private Vector3 pointLightSrc = new Vector3(20f, 10f, -20f);
-        private Vector3 pointLightDir = new Vector3(-0.75f, -0.75f, -0.5f);
+        private Vector3 pointLightSrc = new Vector3(20f, 10f, 5f);
+        private Vector3 sunLightSrc = new Vector3(20f, 10f, -20f);
+        private Vector3 sunLightDir = new Vector3(-0.75f, -0.75f, -0.5f);
         //Random
         private Random r = new Random((int)DateTime.Now.TimeOfDay.Ticks);
         //Shaders
@@ -46,7 +49,7 @@ namespace SimProvider.Graphics
         //Framebuffer
         private uint framebuffer = 0;
         private uint depthTexture = 0;
-        private int depthTextureWidth = 4096;
+        private int depthTextureWidth = (int)Math.Pow(2, 12);
 
         private int width;
         private int height;
@@ -64,7 +67,7 @@ namespace SimProvider.Graphics
             projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), wdh / hgt, 0.1f, 300.0f);
            
             depthProjection = Matrix4.CreateOrthographicOffCenter(-30, 30, -30, 30, -10, 50);
-            depthView = Matrix4.LookAt(pointLightSrc, pointLightSrc + pointLightDir, Vector3.UnitY);
+            depthView = Matrix4.LookAt(sunLightSrc, sunLightSrc + sunLightDir, Vector3.UnitY);
 
             //load shader
             sp = BasicShader.create("Data/Shader/basic.v", "Data/Shader/basic.f");
@@ -99,6 +102,12 @@ namespace SimProvider.Graphics
             newObjects.Add(new string[]{"tree1","tree1"});
             newObjects.Add(new string[] { "test", "tree1" });
 
+            streetSegments = new List<string[]>();
+            streetSegments.Add(new string[]{"street", "street-asphalt"});
+            streetSegments.Add(new string[]{"street", "street-asphalt2"});
+            streetSegments.Add(new string[]{"street", "street-asphalt3"});
+            streetSegments.Add(new string[]{"street", "street-asphalt4"});
+
             objects = new List<SceneObject>();
             for (int i = 0; i < 100; i++)
             {
@@ -108,7 +117,8 @@ namespace SimProvider.Graphics
             street = new List<SceneObject>();
             for (int i = 0; i < 100; i++)
             {
-                street.Add(new SceneObject(new Vector3(0, 0, -i * 2), Vector3.Zero, new Vector3(1, 1, 1f), "street", "street-asphalt"));
+                string[] s = streetSegments[r.Next(streetSegments.Count)];
+                street.Add(new SceneObject(new Vector3(0, 0, -i * 2), Vector3.Zero, new Vector3(1, 1, 1f), s[0], s[1]));
             }
         }
 
@@ -120,6 +130,9 @@ namespace SimProvider.Graphics
 
             models.Add("street", new VertexBufferObject(OBJLoader.loadModelfromOBJ("Data/Models/street.obj")[0]));
             textures.Add("street-asphalt", Texture.fromFile("Data/Textures/street-asphalt.png"));
+            textures.Add("street-asphalt2", Texture.fromFile("Data/Textures/street-asphalt2.png"));
+            textures.Add("street-asphalt3", Texture.fromFile("Data/Textures/street-asphalt3.png"));
+            textures.Add("street-asphalt4", Texture.fromFile("Data/Textures/street-asphalt4.png"));
             textures.Add("street-sand", Texture.fromFile("Data/Textures/street-sand.png"));
             textures.Add("street-mud", Texture.fromFile("Data/Textures/street-mud.png"));
 
@@ -175,7 +188,8 @@ namespace SimProvider.Graphics
                 if (street[i].Position.Z > 5)
                 {
                     street.RemoveAt(i);
-                    street.Add(new SceneObject(new Vector3(0, 0, -2 * street.Count), Vector3.Zero, new Vector3(1, 1, 1f), "street", "street-asphalt"));
+                    string[] s = streetSegments[r.Next(streetSegments.Count)];
+                    street.Add(new SceneObject(new Vector3(0, 0, -2 * street.Count), Vector3.Zero, new Vector3(1, 1, 1f), s[0], s[1]));
                 }
             }
             addc += elapsedTime * velocity * r.NextDouble();
@@ -196,6 +210,7 @@ namespace SimProvider.Graphics
             float f = (float)r.NextDouble() + 0.5f;
             Vector3 scale = new Vector3(f, f, f);
             objects.Add(new SceneObject(pos, rotation, scale, s[0], s[1]));
+           
         }
 
         public void Render()
@@ -253,7 +268,7 @@ namespace SimProvider.Graphics
 
             GL.Uniform3(sp.Uniforms["lightsrc"], pointLightSrc);
             GL.Uniform1(sp.Uniforms["lightstr"], 1f);
-            //GL.Uniform4(sp.Uniforms["ambient"], new Vector4(0f,0f,00f,1f));
+            //GL.Uniform4(sp.Uniforms["ambient"], new Vector4(1f,1f,1f,1f));
 
             Matrix4 m = so.ObjectMatrix;
             GL.UniformMatrix4(sp.Uniforms["model"], false, ref m);
