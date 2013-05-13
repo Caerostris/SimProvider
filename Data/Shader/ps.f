@@ -1,4 +1,6 @@
-﻿#version 330
+﻿#version 150
+#extension GL_ARB_explicit_attrib_location : enable
+
 uniform sampler2D tex;
 
 in vec2 tc;
