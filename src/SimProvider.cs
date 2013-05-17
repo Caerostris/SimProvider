@@ -5,7 +5,6 @@
  * 
  * TODO:
  * Simulate battery drain
- * Assign distance traveled when simulating
 */
 
 /*
@@ -281,7 +280,7 @@ namespace SimProvider
 
             this.acceleration = acceleration;
 			this.velocity += (this.acceleration * time);
-            //this.distanceTraveled += this.velocity;
+            this.distanceTraveled += (this.velocity * time);
         }
     }
 }
