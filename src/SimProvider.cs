@@ -1,5 +1,11 @@
 ﻿//License: GPLv3
-
+/*
+ * What should be functional?
+ * Simulation of acceleration and velocity
+ * 
+ * TODO:
+ * Simulate battery drain
+*/
 
 /*
  * This library simulates the speed and acceleration of a motorcycle
@@ -17,97 +23,264 @@ namespace SimProvider
 {
     public class Battery
     {
-        public double Voltage
-        {
-            get
-            {
-                return 48;
-            }
+		private double voltage;
+        public double Voltage {
+			get {
+				return this.voltage;
+			}
+			set {
+				this.voltage = value;
+			}
         }
-        public double MaxAmpere
-        {
-            get
-            {
-                return 104.166;
+
+		private double maxAmpere;
+        public double MaxAmpere {
+            get {
+                return this.maxAmpere;
             }
+			set {
+					this.maxAmpere = value;
+			}
         }
-        public double Watt
-        {
-            get
-            {
+
+        public double Watt {
+            get {
                 return this.Voltage * this.MaxAmpere;
             }
         }
+
+		public Battery ()
+		{
+			this.voltage = 48;
+			this.maxAmpere = 104.166;
+		}
     }
 
     public class Engine
     {
-        public double efficieny = 0.9;
-        public double Torque 
-        {
-            get
-            {
-                return 19.2;
-            }
-        }
+        private double efficieny;
+		public double Efficiency {
+			get {
+				return this.efficieny;
+			}
+			set {
+				this.efficieny = value;
+			}
+		}
+
+		private double torque;
+        public double Torque {
+			get {
+				return this.torque;
+			}
+			set {
+				this.torque = value;
+			}
+		}
+
+		public Engine ()
+		{
+			this.efficieny = 0.9;
+			this.torque = 19.2;
+		}
+
+		public Engine (double efficiency, double torque)
+		{
+			this.efficieny = efficiency;
+			this.torque = torque;
+		}
     }
 
     public class Tire
     {
-        public double diameter = 0.5;
+		private double diameter;
+		public double Diameter {
+			get {
+				return this.diameter;
+			}
+			set {
+				this.diameter = value;
+			}
+		}
+
+		public Tire()
+		{
+			this.diameter = 0.5;
+		}
+
+		public Tire (double diameter)
+		{
+			this.diameter = diameter;
+		}
     }
 
-    public abstract class Surface
+	//shouldn't this be part of the game?
+    public abstract class Surfaces
     {
         public const double crrAsphalt = 0.015;
     }
 
     public class Bike
     {
-        Battery battery;
-        Engine engine;
-        Tire tire;
-        double surface = Surface.crrAsphalt;
-        double velocity = 0;
-		public double Veclocity
-		{
-			get
-			{
-				return this.velocity;
+        private Battery battery;
+		public Battery Battery {
+			get {
+				return this.battery;
+			}
+			set {
+				this.battery = value;
 			}
 		}
 
-        double acceleration = 0;
-		public double Acceleration {
-			get
-			{
-				return this.acceleration;
+        private Engine engine;
+		public Engine Engine {
+			get {
+				return this.engine;
+			}
+			set {
+				this.engine = value;
 			}
 		}
-        double weight = 198;
-        double bikeSurface = 0.8;
-        double tra = 1; //transmission ratio of the axle drive
-        double trs = 3.15; //transmission ratio of the scarf gear
+
+        private Tire tire;
+		public Tire Tire {
+			get {
+				return this.tire;
+			}
+			set {
+				this.tire = value;
+			}
+		}
+
+        private double surface;
+		public double Surface {
+			get {
+				return this.surface;
+			}
+			set {
+				this.surface = value;
+			}
+		}
+
+        private double weight;
+		public double Weight {
+			get {
+				return this.weight;
+			}
+			set {
+				this.weight = value;
+			}
+		}
+
+        private double bikeSurface;
+		public double BikeSurface {
+			get {
+				return this.bikeSurface;
+			}
+			set {
+				this.bikeSurface = value;
+			}
+		}
+
+        private double tra; //transmission ratio of the axle drive
+		public double Tra {
+			get {
+				return this.tra;
+			}
+			set {
+				this.tra = value;
+			}
+		}
+
+        private double trs; //transmission ratio of the scarf gear
+		public double Trs {
+			get {
+				return this.trs;
+			}
+			set {
+				this.trs = value;
+			}
+		}
+
         double distanceTraveled = 0;
+		public double DistanceTraveled {
+			get {
+				return this.distanceTraveled;
+			}
+			set {
+				this.distanceTraveled = value;
+			}
+		}
+
+		private double acceleration = 0;
+		public double Acceleration {
+			get {
+				return this.acceleration;
+			}
+			set
+			{
+				this.acceleration = value;
+			}
+		}
+
+		private double velocity = 0;
+		public double Veclocity {
+			get {
+				return this.velocity;
+			}
+			set
+			{
+				this.velocity = value;
+			}
+		}
 
 		public Bike ()
 		{
 			this.tire = new Tire();
 			this.engine = new Engine();
 			this.battery = new Battery();
+			this.surface = Surfaces.crrAsphalt;
+			this.weight = 198;
+			this.bikeSurface = 0.8;
+			this.trs = 3.15;
+			this.tra = 1;
+		}
+
+		public Bike (Tire tire, Engine engine, Battery battery, double weight, double bikeSurface, double trs, double tra)
+		{
+			this.tire = tire;
+			this.engine = engine;
+			this.battery = battery;
+			this.weight = weight;
+			this.bikeSurface = bikeSurface;
+			this.trs = trs;
+			this.tra = tra;
+
+			this.surface = Surfaces.crrAsphalt;
+		}
+
+		public Bike (Tire tire, Engine engine, Battery battery, double surface, double weight, double bikeSurface, double trs, double tra)
+		{
+			this.tire = tire;
+			this.engine = engine;
+			this.battery = battery;
+			this.surface = surface;
+			this.weight = weight;
+			this.bikeSurface = bikeSurface;
+			this.trs = trs;
+			this.tra = tra;
 		}
 
         public void update(double time)
         {
-            double forceMoving = (this.engine.Torque * this.trs * this.tra * 0.9) / (0.5 * this.tire.diameter); // 0.9 is some factor that I can't remember, 0.5 is a factor in formula
+            double forceMoving = (this.engine.Torque * this.trs * this.tra * 0.9) / (0.5 * this.tire.Diameter);
             double forceStopping = (0.5 * 0.57 * 1.2041 * this.bikeSurface * this.velocity * this.velocity) + (this.surface * this.weight * 9.81); // 0.57 is the coefficient of flow resistance, 1.2401 is the density of air, 9.81 is obvious
             double actualForceMoving = forceMoving - forceStopping;
             double acceleration = actualForceMoving / this.weight;
 
             this.acceleration = acceleration;
-			this.velocity = this.velocity + (this.acceleration * time);
-            //this.velocity = this.velocity + acceleration;
-            this.distanceTraveled += this.velocity;
+			this.velocity += (this.acceleration * time);
+            this.distanceTraveled += (this.velocity * time);
         }
     }
 }
