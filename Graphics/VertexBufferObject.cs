@@ -12,19 +12,26 @@ namespace SimProvider.Graphics
     {
         int[] ids;
         int elemets;
-        public VertexBufferObject(Mesh m)
+        public VertexBufferObject(Mesh mesh)
+            : this(new Mesh[] { mesh }) { }
+        public VertexBufferObject(Mesh[] meshes)
         {
-            List<Vertex> vertices = new List<Vertex>(m.Faces.Count*3);
-            List<int> indices = new List<int>(m.Faces.Count);
-            foreach (Face f in m.Faces){
-                for (int i = 0; i < f.vIndices.Length;i++){
-                    Vertex v = new Vertex();
-                    v.Position = m.Vertices[(int)f.vIndices[i]];
-                    v.Normal= m.Normals[(int)f.nIndices[i]];
-                    v.TextureCoordinate = m.TexCoords[(int)f.tIndices[i]];
+            List<Vertex> vertices = new List<Vertex>();
+            List<int> indices = new List<int>();
+            foreach (Mesh m in meshes)
+            {
+                foreach (Face f in m.Faces)
+                {
+                    for (int i = 0; i < f.vIndices.Length; i++)
+                    {
+                        Vertex v = new Vertex();
+                        v.Position = m.Vertices[(int)f.vIndices[i]];
+                        v.Normal = m.Normals[(int)f.nIndices[i]];
+                        v.TextureCoordinate = m.TexCoords[(int)f.tIndices[i]];
 
-                    vertices.Add(v);
-                    indices.Add(vertices.Count - 1);
+                        vertices.Add(v);
+                        indices.Add(vertices.Count - 1);
+                    }
                 }
             }
             ids = new int[2];

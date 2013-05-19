@@ -38,37 +38,8 @@ namespace SimProvider.Graphics
 
         private void GLTest_Load(object sender, EventArgs e)
         {
-            t3 = Texture.create(glc.Width , glc.Height);
-            t4 = Texture.create(glc.Width, glc.Height);
             initGL();
-            m1 = OBJLoader.loadModelfromOBJ("Data/w.obj")[0];
-            m2 = OBJLoader.loadModelfromOBJ("Data/k.obj")[0];
-            t1 = Texture.fromFile("Data/test.png");
-            t2 = Texture.fromFile("Data/HMap.png");
-            
-            sp = BasicShader.create("Data/Shader/basic.v", "Data/Shader/basic.f");
-            sp.addUniform("texture");
-            sp.addUniform("lightsrc");
-            sp.addUniform("lightstr");
-            sp.addAttribute("position");
-            sp.addAttribute("normal");
-            sp.addUniform("modelViewProjection");
-
-            sp.addAttribute("texCoord");
-            //GL.BindFragDataLocation(sp.ID, 0, "FragColor");
-            vbo1 = new VertexBufferObject(m1);
-            vbo2 = new VertexBufferObject(m2);
-            glc.Resize += resize;
-            this.FormClosing += GLTest_FormClosing;
             s = new Scene(glc.Width, glc.Height);
-        }
-
-        void GLTest_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            vbo1.delete();
-            vbo2.delete();
-            t1.delete();
-            t2.delete();
         }
 
         private void resize(object sender, EventArgs e)

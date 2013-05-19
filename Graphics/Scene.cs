@@ -103,8 +103,7 @@ namespace SimProvider.Graphics
             wheel = new SceneObject(new Vector3(0, 0.5f, 0.5f), new Vector3(0, MathHelper.Pi / 2, 0), new Vector3(0.25f, 0.25f, 0.25f), "wheel", "motorcycle");
 
             newObjects = new List<string[]>();
-            newObjects.Add(new string[] { "tree1", "tree1" });
-            newObjects.Add(new string[] { "test", "tree1" });
+            newObjects.Add(new string[] { "tree", "leaf" });
 
             streetSegments = new List<string[]>();
             streetSegments.Add(new string[] { "street", "street" });
@@ -130,7 +129,7 @@ namespace SimProvider.Graphics
 
             models = new ContentManager<VertexBufferObject>("Data/Models/", new LoadContentFunction<VertexBufferObject>(
                 (string name, string path) =>
-                    new VertexBufferObject(OBJLoader.loadModelfromOBJ(path + name + ".obj")[0])));
+                    new VertexBufferObject(OBJLoader.loadModelfromOBJ(path + name + ".obj"))));
             textures = new ContentManager<Texture>("Data/Textures/", new LoadContentFunction<Texture>(
                 (string name, string path) =>
                     Texture.fromFile(path + name + ".png")));
@@ -139,6 +138,8 @@ namespace SimProvider.Graphics
             models.add("motorcycle", new VertexBufferObject(meshes[0]));
             models.add("wheel", new VertexBufferObject(meshes[1]));
             textures.add("motorcycle", Texture.fromFile("Data/Textures/Motorrad.png"));
+
+            textures.add("leaf", Texture.fromFile("Data/Textures/leaf.png",20));
 
             //Framebuffer
             GL.GenFramebuffers(1, out framebuffer);
