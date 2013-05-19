@@ -10,9 +10,17 @@ namespace SimProvider.Graphics
         public Vector3 Position { get; set; }
         public Vector3 Rotation { get; set; }
         public Vector3 Scale { get; set; }
-        public string Texture { get; set; }
-        public string Model { get; set; }
+        public string[] Texture { get; set; }
+        public string[] Model { get; set; }
         public SceneObject(Vector3 pos, Vector3 rot, Vector3 scale, string model, string texture)
+        {
+            Position = pos;
+            Rotation = rot;
+            Scale = scale;
+            Model = new string[]{model};
+            Texture = new string[] { texture };
+        }
+        public SceneObject(Vector3 pos, Vector3 rot, Vector3 scale, string[] model, string[] texture)
         {
             Position = pos;
             Rotation = rot;

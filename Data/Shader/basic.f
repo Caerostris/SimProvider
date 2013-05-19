@@ -36,6 +36,6 @@ void main(){
 	}
 	}
 	float light = max(dot(-lightdir,n),0.0)*lightstr;
-
-	FragColor = (texture2D(texture,texcoord)*light*shadowfac)+(ambient*texture2D(texture,texcoord));
+	vec4 color = texture2D(texture,texcoord);
+	FragColor = (color*light*shadowfac)+(color*ambient);
 }

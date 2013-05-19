@@ -38,22 +38,12 @@ namespace SimProvider.Graphics
 
         private void GLTest_Load(object sender, EventArgs e)
         {
-            initGL();
             s = new Scene(glc.Width, glc.Height);
         }
 
         private void resize(object sender, EventArgs e)
         {
             GL.Viewport(0, 0, glc.Width, glc.Height);
-        }
-
-
-        private void initGL()
-        {
-            GL.Viewport(0, 0, glc.Width, glc.Height);
-            GL.ClearColor(0.0f, 0.8f, 0.9f, 1.0f);
-            GL.Enable(EnableCap.DepthTest);
-            GL.Enable(EnableCap.CullFace);
         }
 
 
