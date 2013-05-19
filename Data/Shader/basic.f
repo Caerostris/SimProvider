@@ -3,7 +3,7 @@
 
 uniform sampler2D texture;
 uniform sampler2D shadowmap;
-uniform vec3 lightsrc;
+uniform vec3 lightdir;
 uniform float lightstr;
 uniform vec4 ambient;
 
@@ -31,10 +31,10 @@ void main(){
 	float shadowfac = 1.0;
 	for (int i=0;i<9;i++){
 		if (texture2D(shadowmap, shadowcoord.xy + poissonDisk[i]/1000.0).z + b  < shadowcoord.z){
-			shadowfac -= 0.07;
+			shadowfac -= 0.05;
 			}
 	}
-	vec3 lightdir = normalize(pos - lightsrc);
 	float light = max(dot(-lightdir,n),0.0)*lightstr;
-	FragColor = texture2D(texture,texcoord)*light*shadowfac;//+ambient*texture2D(texture,texcoord))/2;
+
+	FragColor = (texture2D(texture,texcoord)*light*shadowfac)+(ambient*texture2D(texture,texcoord));
 }

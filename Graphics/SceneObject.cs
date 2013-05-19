@@ -24,7 +24,7 @@ namespace SimProvider.Graphics
         {
             get
             {
-                return Matrix4.Scale(Scale) * Matrix4.CreateRotationX(Rotation.X) *Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationZ(Rotation.Z) * Matrix4.CreateTranslation(Position);
+                return Matrix4.Scale(Scale) * Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationZ(Rotation.Z) * Matrix4.CreateTranslation(Position);
             }
         }
         public SceneObject Clone

@@ -54,6 +54,7 @@
     <Compile Include="Graphics\Scene.cs" />
     <Compile Include="Graphics\SceneObject.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
+    <Compile Include="Graphics\ContentManager.cs" />
     <Compile Include="Graphics\Vertex.cs" />
     <Compile Include="Graphics\VertexBufferObject.cs" />
     <Compile Include="Program.cs" />
@@ -110,16 +111,19 @@
     <Content Include="Data\Shader\basic.v">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Textures\street-asphalt2.png">
+    <Content Include="Data\Textures\Barke.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Textures\street-asphalt3.png">
+    <Content Include="Data\Textures\landscape.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Textures\street-asphalt4.png">
+    <Content Include="Data\Textures\Motorrad.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Textures\Kopie von street-asphalt.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Textures\street.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\Textures\test.png">
@@ -128,16 +132,7 @@
     <Content Include="Data\Textures\sky.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Data\Textures\street-asphalt.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Data\Textures\tree1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\Textures\street-mud.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\Textures\street-sand.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -181,6 +176,15 @@
     <Content Include="Data\Models\tree1.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Data\Models\Barke.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Models\landscape.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Models\Motorrad.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Data\Models\test.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
