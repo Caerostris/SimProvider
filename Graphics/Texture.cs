@@ -14,28 +14,47 @@ namespace SimProvider.Graphics
         private int id;
         public int ID { get { return id; } }
         private Texture() { }
-        public static Texture fromFile(string path)
+        public static Texture fromFile(string path, int mipmaps = 0)
         {
             if (!File.Exists(path))
                 throw new ArgumentException(path);
 
             Texture t = new Texture();
             t.id = GL.GenTexture();
-            
+
             Bitmap bmp = new Bitmap(path);
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
             GL.BindTexture(TextureTarget.Texture2D, t.id);
+
+
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
             OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             bmp.UnlockBits(data);
             bmp.Dispose();
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            if (mipmaps > 0)
+            {
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureBaseLevel, 0);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinLod, 0);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLod, mipmaps);
+                
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            
+                GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            }
+            else
+            {
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+                GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            }
+
             GL.BindTexture(TextureTarget.Texture2D, 0);
             return t;
         }
@@ -47,7 +66,7 @@ namespace SimProvider.Graphics
             byte[] data = new byte[width * height * 4];
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, width, height, 0,
             OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data);
-            
+
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
@@ -57,7 +76,7 @@ namespace SimProvider.Graphics
         }
         public void bind()
         {
-            GL.BindTexture(TextureTarget.Texture2D,id);
+            GL.BindTexture(TextureTarget.Texture2D, id);
         }
         public void delete()
         {
@@ -72,7 +91,7 @@ namespace SimProvider.Graphics
 
             bmp.RotateFlip(RotateFlipType.RotateNoneFlipY);
             return bmp;
-            
+
         }
 
     }

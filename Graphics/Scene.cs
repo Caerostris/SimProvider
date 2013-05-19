@@ -41,7 +41,7 @@ namespace SimProvider.Graphics
         private Vector3 sunLightSrc = new Vector3(20f, 10f, -20f);
         private Vector3 sunLightDir = new Vector3(-0.75f, -0.75f, -0.5f);
         //Random
-        private Random r = new Random(5);//(int)DateTime.Now.TimeOfDay.Ticks);
+        private Random r = new Random((int)DateTime.Now.TimeOfDay.Ticks);
         //Shaders
         private BasicShader sp;
         private BasicShader depthShader;
@@ -65,10 +65,10 @@ namespace SimProvider.Graphics
             initObjects();
 
             //init matrices
-            view = Matrix4.LookAt(new Vector3(0, 2f, 2), new Vector3(0, 1.5f, 0), Vector3.UnitY);
+            view = Matrix4.LookAt(new Vector3(0, 1.75f, 1.75f), new Vector3(0, 1.5f, 0), Vector3.UnitY);
             projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(75), wdh / hgt, 0.1f, 300.0f);
 
-            depthProjection = Matrix4.CreateOrthographicOffCenter(-30, 30, -30, 30, -10, 50);
+            depthProjection = Matrix4.CreateOrthographicOffCenter(-30, 30, -30, 30, -10, 100);
             depthView = Matrix4.LookAt(sunLightSrc, sunLightSrc + sunLightDir, Vector3.UnitY);
 
             //load shader
@@ -99,8 +99,8 @@ namespace SimProvider.Graphics
         private void initObjects()
         {
             skyDome = new SceneObject(Vector3.Zero, Vector3.Zero, new Vector3(100, 100, 100), "sky", "sky");
-            motorcycle = new SceneObject(new Vector3(0, 0, -0.25f), new Vector3(0, MathHelper.Pi / 2, 0), new Vector3(0.25f, 0.25f, 0.25f), "motorcycle", "motorcycle");
-            wheel = new SceneObject(new Vector3(0, 0.5f, -0.25f), new Vector3(0, MathHelper.Pi / 2, 0), new Vector3(0.25f, 0.25f, 0.25f), "wheel", "motorcycle");
+            motorcycle = new SceneObject(new Vector3(0, 0, 0.5f), new Vector3(0, MathHelper.Pi / 2, 0), new Vector3(0.25f, 0.25f, 0.25f), "motorcycle", "motorcycle");
+            wheel = new SceneObject(new Vector3(0, 0.5f, 0.5f), new Vector3(0, MathHelper.Pi / 2, 0), new Vector3(0.25f, 0.25f, 0.25f), "wheel", "motorcycle");
 
             newObjects = new List<string[]>();
             newObjects.Add(new string[] { "tree1", "tree1" });
@@ -116,11 +116,11 @@ namespace SimProvider.Graphics
             }
             for (int i = 0; i < 6; i++)
             {
-                objects.Add(new SceneObject(new Vector3(2.1f, 0, -50*i), new Vector3(0, -MathHelper.Pi / 2, 0), new Vector3(0.15f, 0.15f, 0.15f), "barke", "barke"));
+                objects.Add(new SceneObject(new Vector3(2.15f, 0, -50*i), new Vector3(0, -MathHelper.Pi / 2, 0), new Vector3(0.15f, 0.15f, 0.15f), "barke", "barke"));
             }
 
-            street = new SceneObject(new Vector3(0, 0, 0), Vector3.Zero, new Vector3(1, 1, 1f), "street", "street");
-            landscape = new SceneObject(new Vector3(0, 0, 0), Vector3.Zero, new Vector3(1, 1, 1f), "landscape", "landscape");
+            street = new SceneObject(new Vector3(-1.5f, 0, 0), Vector3.Zero, new Vector3(3, 1, 1f), "street", "street");
+            landscape = new SceneObject(new Vector3(-1.5f, 0, 0), Vector3.Zero, new Vector3(3, 1, 1f), "landscape", "landscape");
 
             sunLightDir.Normalize();
         }
@@ -203,9 +203,9 @@ namespace SimProvider.Graphics
         private void addNewObject(int o)
         {
             string[] s = newObjects[r.Next(newObjects.Count)];
-            Vector3 pos = new Vector3((float)r.NextDouble() * 40 + 3, 0, (float)r.NextDouble() * -50 - o);
+            Vector3 pos = new Vector3((float)r.NextDouble() * 40 + 3.5f, 0, (float)r.NextDouble() * -50 - o);
             if (r.Next(2) == 1)
-                pos.X = -pos.X;
+                pos.X = -pos.X - 3f;
             Vector3 rotation = new Vector3(0, (float)r.NextDouble() * MathHelper.TwoPi, 0);
             float f = (float)r.NextDouble() + 0.5f;
             Vector3 scale = new Vector3(f, f, f);
