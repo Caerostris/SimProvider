@@ -90,10 +90,13 @@ namespace SimProvider.Graphics
             sp.use();
             GL.UniformMatrix4(sp.Uniforms["bias"], false, ref bias);
             GL.UseProgram(0);
+
             depthShader = BasicShader.create("Data/Shader/depthShader.v", "Data/Shader/depthShader.f");
             depthShader.addUniform("model");
             depthShader.addUniform("view");
             depthShader.addUniform("projection");
+            depthShader.addUniform("texture");
+
             ps = BasicShader.create("Data/Shader/ps.v", "Data/Shader/ps.f");
             ps.addUniform("tex");
         }
@@ -117,7 +120,7 @@ namespace SimProvider.Graphics
             wheel = new SceneObject(new Vector3(0, 0.5f, 0.5f), new Vector3(0, MathHelper.Pi / 2, 0), new Vector3(0.25f, 0.25f, 0.25f), "wheel", "motorcycle");
 
             newObjects = new List<string[]>();
-            newObjects.Add(new string[] { "tree", "leaf", "tree1", "leaf" });
+            newObjects.Add(new string[] { "tree", "leaf", "tree1", "leafs" });
 
             streetSegments = new List<string[]>();
             streetSegments.Add(new string[] { "street", "street" });
@@ -153,7 +156,7 @@ namespace SimProvider.Graphics
             models.add("wheel", new VertexBufferObject(meshes[1]));
             textures.add("motorcycle", Texture.fromFile("Data/Textures/Motorrad.png"));
 
-            meshes = OBJLoader.loadModelfromOBJ("Data/Models/tree.obj");
+            meshes = OBJLoader.loadModelfromOBJ("Data/Models/lowtree.obj");
             models.add("tree", new VertexBufferObject(meshes[0]));
             models.add("leaf", new VertexBufferObject(meshes[1]));
 
@@ -263,7 +266,7 @@ namespace SimProvider.Graphics
             for (int i = 0; i < 20; i++)
             { renderSceneObject(landscape); landscape.Position -= new Vector3(0, 0, 10); }
             landscape.Position += new Vector3(0, 0, 200);
-
+            
             renderSceneObject(motorcycle);
             renderSceneObject(wheel);
 
@@ -290,6 +293,9 @@ namespace SimProvider.Graphics
                 GL.UniformMatrix4(depthShader.Uniforms["model"], false, ref m);
                 GL.UniformMatrix4(depthShader.Uniforms["view"], false, ref depthView);
                 GL.UniformMatrix4(depthShader.Uniforms["projection"], false, ref depthProjection);
+                
+                textures.get(so.Texture[i]).bind();
+                
                 models.get(so.Model[i]).draw();
 
                 GL.UseProgram(0);
