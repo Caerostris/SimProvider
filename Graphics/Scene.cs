@@ -109,6 +109,7 @@ namespace SimProvider.Graphics
             GL.Enable(EnableCap.DepthTest);
             GL.Enable(EnableCap.CullFace);
 
+            GL.AlphaFunc(AlphaFunction.Gequal, 0.5f);
             //GL.Enable(EnableCap.Blend);
             //GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
         }
@@ -256,6 +257,8 @@ namespace SimProvider.Graphics
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Viewport(0, 0, width, height);
 
+            GL.Enable(EnableCap.AlphaTest);
+
             foreach (SceneObject so in objects)
                 renderSceneObject(so);
 
@@ -269,6 +272,8 @@ namespace SimProvider.Graphics
             
             renderSceneObject(motorcycle);
             renderSceneObject(wheel);
+
+            GL.Disable(EnableCap.AlphaTest);
 
             //Debug---------------------------------------------------------------------------------------------------------------
 #if DEBUG

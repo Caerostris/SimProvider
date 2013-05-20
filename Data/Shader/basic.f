@@ -29,11 +29,11 @@ vec2 poissonDisk[9] = vec2[](
 void main(){
 	float shadowfac = 1.0;
 	if (shadowcoord.x >= 0 && shadowcoord.x <= 1 && shadowcoord.y >= 0 && shadowcoord.y <= 1){
-	for (int i=0;i<9;i++){
-		if (texture2D(shadowmap, shadowcoord.xy + poissonDisk[i]/1000.0).z + b  < shadowcoord.z){
-			shadowfac -= 0.07;
-			}
-	}
+		for (int i=0;i<9;i++){
+			if (texture2D(shadowmap, shadowcoord.xy + poissonDisk[i]/1000.0).z + b  < shadowcoord.z){
+				shadowfac -= 0.07;
+				}
+		}
 	}
 	float light = max(dot(-lightdir,n),0.0)*lightstr;
 	vec4 color = texture2D(texture,texcoord);
