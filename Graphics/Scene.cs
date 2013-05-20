@@ -49,7 +49,7 @@ namespace SimProvider.Graphics
         //Framebuffer
         private uint framebuffer = 0;
         private uint depthTexture = 0;
-        private int depthTextureWidth = (int)Math.Pow(2, 12);
+        private int depthTextureWidth = (int)Math.Pow(2, 11);
 
         private int width;
         private int height;
