@@ -298,7 +298,7 @@ namespace SimProvider.Graphics
                 GL.UniformMatrix4(depthShader.Uniforms["model"], false, ref m);
                 GL.UniformMatrix4(depthShader.Uniforms["view"], false, ref depthView);
                 GL.UniformMatrix4(depthShader.Uniforms["projection"], false, ref depthProjection);
-                
+                GL.ActiveTexture(TextureUnit.Texture0);
                 textures.get(so.Texture[i]).bind();
                 
                 models.get(so.Model[i]).draw();
