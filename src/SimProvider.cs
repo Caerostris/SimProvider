@@ -326,7 +326,7 @@ namespace SimProvider
             double PWMPercent = PWM / 255;
             acceleration *= PWMPercent;
 
-            this.battery.RunTime -= time;
+            this.battery.RunTime -= time * PWMPercent;
 
             this.acceleration = acceleration;
 			this.velocity += (this.acceleration * time);
