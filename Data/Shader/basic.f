@@ -49,7 +49,7 @@ float getShadowFac(){
 	float shadowfac = 1.0;
 	if (sc2.x >= 0 && sc2.x <= 1 && sc2.y >= 0 && sc2.y <= 1){
 			for (int i=0;i<9;i++){
-				if (texture(shadowmap, vec3((sc2.xy + poissonDisk[i]/1000.0),sc2.z)).z + b  < sc2.w){
+				if (texture(shadowmap, vec3((sc2.xy + poissonDisk[i]/2500.0),sc2.z)).z + b  < sc2.w){
 					shadowfac -= 0.07;
 					}
 			}

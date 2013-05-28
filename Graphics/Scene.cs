@@ -13,11 +13,14 @@ namespace SimProvider.Graphics
         //Models and textures
         private ContentManager<VertexBufferObject> models;
         private ContentManager<Texture> textures;
+        private VertexBufferObject grassModel;
+        private Texture grassTexture;
 
         //Scene objects
         private List<SceneObject> objects;
         private List<string[]> newObjects;
         private List<string[]> streetSegments;
+        private Vector3[] grassData;
         private SceneObject street;
         private SceneObject landscape;
         private SceneObject skyDome;
@@ -27,7 +30,7 @@ namespace SimProvider.Graphics
         //Logics
         private double addc = 0.0;
         private float diameter = 0.75f;
-
+        
         //Camera
         private Matrix4 view;
         private Matrix4 psvp;
@@ -150,6 +153,13 @@ namespace SimProvider.Graphics
             street = new SceneObject(new Vector3(-1.5f, 0, 0), Vector3.Zero, new Vector3(3, 1, 1f), "street", "street");
             landscape = new SceneObject(new Vector3(-1.5f, 0, 0), Vector3.Zero, new Vector3(3, 1, 1f), "landscape", "landscape");
 
+            grassData = new Vector3[5000];
+            for (int i = 0; i < grassData.Length; i++)
+            {
+                grassData[i] = new Vector3((float)r.NextDouble() * 50 + 3.5f, 0, (float)r.NextDouble() * -100);
+                if (r.Next(2) == 1)
+                    grassData[i].X = -grassData[i].X - 3f;
+            }
             sunLightDir.Normalize();
         }
 
@@ -175,6 +185,9 @@ namespace SimProvider.Graphics
             meshes = OBJLoader.loadModelfromOBJ("Data/Models/lowtree.obj");
             models.add("tree", new VertexBufferObject(meshes[0]));
             models.add("leaf", new VertexBufferObject(meshes[1]));
+
+            grassModel = new VertexBufferObject(OBJLoader.loadModelfromOBJ("Data/Models/grass.obj")[0]);
+            grassTexture = Texture.fromFile("Data/Textures/grass.png");
 
             //Framebuffer
             GL.GenFramebuffers(1, out framebuffer);
@@ -204,6 +217,22 @@ namespace SimProvider.Graphics
 
         }
 
+        private void updateGrass(float movement)
+        {
+            int l = grassData.Length;
+            for (int i = 0; i < l; i++)
+            {
+                if (grassData[i].Z >= 0)
+                {
+                    grassData[i] = new Vector3((float)r.NextDouble() * 50 + 3.5f, 0, (float)r.NextDouble() * -100);
+                    if (r.Next(2) == 1)
+                        grassData[i].X = -grassData[i].X - 3f;
+                }
+                else
+                    grassData[i].Z += movement;
+            }
+        }
+
         public void Update(float elapsedTime, float velocity)
         {
             for (int i = objects.Count - 1; i >= 0; i--)
@@ -212,7 +241,7 @@ namespace SimProvider.Graphics
                 if (objects[i].Position.Z > 20)
                     objects.RemoveAt(i);
             }
-
+            updateGrass(elapsedTime*velocity);
             street.Position += new Vector3(0, 0, velocity * elapsedTime);
             while (street.Position.Z > 20)
             { street.Position -= new Vector3(0, 0, 10); }
@@ -263,6 +292,7 @@ namespace SimProvider.Graphics
 
         }
 
+
         public void Render()
         {
             //Render ShadowMap----------------------------------------------------------------------------------------------------
@@ -298,13 +328,46 @@ namespace SimProvider.Graphics
 
             renderSceneObject(motorcycle);
             renderSceneObject(wheel);
-
+            renderGrass();
             GL.Disable(EnableCap.AlphaTest);
             renderGui();
 
 
         }
 
+        private void renderGrass()
+        {
+            
+            int l = grassData.Length;
+            sp.use();
+            GL.Disable(EnableCap.CullFace);
+            GL.Uniform3(sp.Uniforms["lightdir"], sunLightDir);
+            GL.Uniform1(sp.Uniforms["lightstr"], 1f);
+            GL.Uniform3(sp.Uniforms["slices"], slices);
+            GL.Uniform4(sp.Uniforms["ambient"], new Vector4(0.1f, 0.1f, 0.1f, 1f));
+
+            GL.ActiveTexture(TextureUnit.Texture0);
+            grassTexture.bind();
+            GL.Uniform1(sp.Uniforms["modelTexture"], 0);
+
+            GL.ActiveTexture(TextureUnit.Texture1);
+            GL.BindTexture(TextureTarget.Texture2DArray, depthTextureArray);
+            GL.Uniform1(sp.Uniforms["shadowmap"], 1);
+
+            for (int i = 0; i < l; i++)
+            {   
+                Matrix4 m = Matrix4.CreateTranslation(grassData[i]);
+                Matrix4 mvp = m * view * projection;
+                GL.UniformMatrix4(sp.Uniforms["modelViewProjection"], false, ref mvp);
+                GL.UniformMatrix4(sp.Uniforms["model"], false, ref m);
+                Matrix4 shadowMat0 = (m * depthView * depthProjection) * bias;
+                GL.UniformMatrix4(sp.Uniforms["shadowMat0"], false, ref shadowMat0);
+                grassModel.draw();
+            }
+
+            GL.UseProgram(0);
+            GL.Enable(EnableCap.CullFace);
+        }
         private void renderGui()
         {
             ps.use();

@@ -69,7 +69,6 @@
   <ItemGroup>
     <Compile Include="Graphics\BasicShader.cs" />
     <Compile Include="Graphics\Face.cs" />
-    <Compile Include="Graphics\Frustum.cs" />
     <Compile Include="Graphics\Mesh.cs" />
     <Compile Include="Graphics\Scene.cs" />
     <Compile Include="Graphics\SceneObject.cs" />
@@ -131,6 +130,9 @@
     <Content Include="Data\Textures\Barke.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Textures\grass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Textures\landscape.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -183,6 +185,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Data\Models\Barke.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Models\grass.obj">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\Models\landscape-grass.obj">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Data\Models\landscape.obj">
