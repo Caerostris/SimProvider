@@ -15,17 +15,6 @@ namespace SimProvider.Graphics
 {
     public partial class GLTest : Form
     {
-        Texture t1;
-        Texture t2;
-        Texture t3;
-        Texture t4;
-        BasicShader sp;
-        Mesh m1;
-        Mesh m2;
-        VertexBufferObject vbo1;
-        VertexBufferObject vbo2;
-        Vector4 ls = new Vector4(0,10,0,1);
-        Vector4 cs = new Vector4(0, 2, 5, 1);
         Scene s;
         Stopwatch t = new Stopwatch();
         double ti = 0;
@@ -51,10 +40,7 @@ namespace SimProvider.Graphics
         {
             c++;
             ErrorCode er = GL.GetError();
-            if (er != ErrorCode.NoError)
-            {
-                System.Console.WriteLine(er);
-            }
+            if (er != ErrorCode.NoError) { System.Console.WriteLine(er); }
             t.Stop();
             float et = (float)t.Elapsed.TotalSeconds;
             ti += et;
