@@ -49,11 +49,56 @@ namespace SimProvider
             }
         }
 
+        private double initialRunTime;
+        private double runTime;
+        public double RunTime
+        {
+            get
+            {
+                return this.runTime;
+            }
+            set
+            {
+                this.runTime = value;
+            }
+        }
+
+        private double ampereHours;
+        public double AmpereHours
+        {
+            get
+            {
+                return this.ampereHours;
+            }
+            set
+            {
+                this.ampereHours = value;
+            }
+        }
+
+        public double BatteryLoad
+        {
+            get
+            {
+                return this.runTime * (this.initialRunTime / 100);
+            }
+        }
+
 		public Battery ()
 		{
 			this.voltage = 48;
 			this.maxAmpere = 104.166;
+            this.ampereHours = 42;
+            this.runTime = (this.AmpereHours / this.maxAmpere) * 60 * 60;
+            this.initialRunTime = runTime;
 		}
+
+        public Battery(double voltage, double maxAmpere, double ampereHours)
+        {
+            this.voltage = voltage;
+            this.maxAmpere = maxAmpere;
+            this.ampereHours = ampereHours;
+        }
     }
 
     public class Engine
@@ -271,12 +316,17 @@ namespace SimProvider
 			this.tra = tra;
 		}
 
-        public void update(double time)
+        public void update(double time, short PWM)
         {
             double forceMoving = (this.engine.Torque * this.trs * this.tra * 0.9) / (0.5 * this.tire.Diameter);
             double forceStopping = (0.5 * 0.57 * 1.2041 * this.bikeSurface * this.velocity * this.velocity) + (this.surface * this.weight * 9.81); // 0.57 is the coefficient of flow resistance, 1.2401 is the density of air, 9.81 is obvious
             double actualForceMoving = forceMoving - forceStopping;
             double acceleration = actualForceMoving / this.weight;
+
+            double PWMPercent = PWM / 255;
+            acceleration *= PWMPercent;
+
+            this.battery.RunTime -= time * PWMPercent;
 
             this.acceleration = acceleration;
 			this.velocity += (this.acceleration * time);
