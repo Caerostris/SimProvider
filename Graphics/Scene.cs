@@ -156,9 +156,9 @@ namespace SimProvider.Graphics
             grassData = new Vector3[5000];
             for (int i = 0; i < grassData.Length; i++)
             {
-                grassData[i] = new Vector3((float)r.NextDouble() * 50 + 3.5f, 0, (float)r.NextDouble() * -100);
+                grassData[i] = new Vector3((float)r.NextDouble() * 50 + 2.5f, 0, (float)r.NextDouble() * -100);
                 if (r.Next(2) == 1)
-                    grassData[i].X = -grassData[i].X - 3f;
+                    grassData[i].X = -grassData[i].X - 3.1f;
             }
             sunLightDir.Normalize();
         }
@@ -185,9 +185,10 @@ namespace SimProvider.Graphics
             meshes = OBJLoader.loadModelfromOBJ("Data/Models/lowtree.obj");
             models.add("tree", new VertexBufferObject(meshes[0]));
             models.add("leaf", new VertexBufferObject(meshes[1]));
+            //textures.add("leafs",Texture.fromFile("Data/Textures/leafs.png",5));
 
             grassModel = new VertexBufferObject(OBJLoader.loadModelfromOBJ("Data/Models/grass.obj")[0]);
-            grassTexture = Texture.fromFile("Data/Textures/grass.png");
+            grassTexture = Texture.fromFile("Data/Textures/grass.png",5);
 
             //Framebuffer
             GL.GenFramebuffers(1, out framebuffer);
@@ -208,6 +209,7 @@ namespace SimProvider.Graphics
             GL.FramebufferTexture(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, depthTextureArray, 0);
 
             GL.DrawBuffer(DrawBufferMode.None);
+            GL.ReadBuffer(ReadBufferMode.None);
 
             FramebufferErrorCode ec = GL.CheckFramebufferStatus(FramebufferTarget.Framebuffer);
             if (ec != FramebufferErrorCode.FramebufferComplete)
@@ -224,9 +226,9 @@ namespace SimProvider.Graphics
             {
                 if (grassData[i].Z >= 0)
                 {
-                    grassData[i] = new Vector3((float)r.NextDouble() * 50 + 3.5f, 0, (float)r.NextDouble() * -100);
+                    grassData[i] = new Vector3((float)r.NextDouble() * 50 + 2.5f, 0, (float)r.NextDouble() * -100);
                     if (r.Next(2) == 1)
-                        grassData[i].X = -grassData[i].X - 3f;
+                        grassData[i].X = -grassData[i].X - 3.1f;
                 }
                 else
                     grassData[i].Z += movement;
@@ -258,7 +260,7 @@ namespace SimProvider.Graphics
             }
 
             addc += elapsedTime * velocity * r.NextDouble();
-            while (addc > 1)
+            while (addc > 3)
             {
                 addc -= 1;
                 addNewObject(300);
@@ -279,7 +281,7 @@ namespace SimProvider.Graphics
         private void addNewObject(int o)
         {
             string[] s = newObjects[r.Next(newObjects.Count)];
-            Vector3 pos = new Vector3((float)r.NextDouble() * 40 + 3.5f, 0, (float)r.NextDouble() * -50 - o);
+            Vector3 pos = new Vector3((float)r.NextDouble() * 80 + 3.5f, 0, (float)r.NextDouble() * -50 - o);
             if (r.Next(2) == 1)
                 pos.X = -pos.X - 3f;
             Vector3 rotation = new Vector3(0, (float)r.NextDouble() * MathHelper.TwoPi, 0);
@@ -333,6 +335,31 @@ namespace SimProvider.Graphics
             renderGui();
 
 
+        }
+
+        private void renderGrassDepth()
+        {
+
+            int l = grassData.Length;
+            depthShader.use();
+            GL.FramebufferTextureLayer(FramebufferTarget.Framebuffer, FramebufferAttachment.DepthAttachment, depthTextureArray, 0, 0);
+            //Matrix4 mvp = (projection * view * so.ObjectMatrix);
+            //GL.UniformMatrix4(depthShader.Uniforms["modelViewProjection"], false, ref mvp);
+           
+            GL.ActiveTexture(TextureUnit.Texture0);
+            grassTexture.bind();
+
+            for (int i = 0; i < l; i++)
+            {
+                Matrix4 m = Matrix4.CreateTranslation(grassData[i]);
+                GL.UniformMatrix4(depthShader.Uniforms["model"], false, ref m);
+                GL.UniformMatrix4(depthShader.Uniforms["view"], false, ref depthView);
+                GL.UniformMatrix4(depthShader.Uniforms["projection"], false, ref depthProjection);
+                grassModel.draw();
+            }
+
+            GL.UseProgram(0);
+            GL.Enable(EnableCap.CullFace);
         }
 
         private void renderGrass()
