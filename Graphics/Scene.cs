@@ -60,9 +60,14 @@ namespace SimProvider.Graphics
         private int height;
 
         private float dist = 0;
+        private int pwm = 0;
+        public int PWM {
+            get { return pwm; }
+        }
 
         private int depthMode = 0;
         private KeyboardState pks;
+        private MouseState pms;
 
         public Scene(int wdh, int hgt)
         {
@@ -276,6 +281,13 @@ namespace SimProvider.Graphics
                 depthMode = Math.Min(2, depthMode + 1);
             }
             pks = ks;
+            MouseState ms = Mouse.GetState();
+            if (ks.IsKeyDown(Key.ControlLeft))
+                pwm = Math.Min(Math.Max((pwm+(int)(ms.WheelPrecise - pms.WheelPrecise)*10), 0), 255);
+            else
+                pwm = Math.Min(Math.Max(pwm + (int)(ms.WheelPrecise - pms.WheelPrecise), 0), 255);
+            pms = ms;
+            Console.WriteLine(pwm);
         }
 
         private void addNewObject(int o)
@@ -359,7 +371,6 @@ namespace SimProvider.Graphics
             }
 
             GL.UseProgram(0);
-            GL.Enable(EnableCap.CullFace);
         }
 
         private void renderGrass()
