@@ -287,7 +287,6 @@ namespace SimProvider.Graphics
             else
                 pwm = Math.Min(Math.Max(pwm + (int)(ms.WheelPrecise - pms.WheelPrecise), 0), 255);
             pms = ms;
-            Console.WriteLine(pwm);
         }
 
         private void addNewObject(int o)

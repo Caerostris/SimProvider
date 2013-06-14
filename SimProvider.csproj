@@ -54,6 +54,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -86,6 +87,18 @@
     <Compile Include="Graphics\OBJLoader.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\Model.cs" />
+    <Compile Include="Save\manager\CalculationManager.cs" />
+    <Compile Include="Save\manager\Manager.cs" />
+    <Compile Include="Save\manager\MultiCalculationManager.cs" />
+    <Compile Include="Save\manager\SimulationManager.cs" />
+    <Compile Include="Save\Save.cs" />
+    <Compile Include="Save\SaveSetting.cs" />
+    <Compile Include="Save\SaveSetting.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>SaveSetting.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SimTestChart\CSVExport.cs" />
     <Compile Include="src\SimProvider.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
     <Compile Include="Window\ChartWindow.cs">
@@ -93,6 +106,12 @@
     </Compile>
     <Compile Include="Window\ChartWindow.Designer.cs">
       <DependentUpon>ChartWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Window\Editor.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\Editor.Designer.cs">
+      <DependentUpon>Editor.cs</DependentUpon>
     </Compile>
     <Compile Include="Window\MainChartWindow.cs">
       <SubType>Form</SubType>
@@ -106,6 +125,12 @@
     <Compile Include="Window\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="Window\SelectBike.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Window\SelectBike.Designer.cs">
+      <DependentUpon>SelectBike.cs</DependentUpon>
+    </Compile>
     <Compile Include="Window\VirtualSimulation.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +141,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Graphics\GLTest.resx">
       <DependentUpon>GLTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\Editor.resx">
+      <DependentUpon>Editor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\MainChartWindow.resx">
+      <DependentUpon>MainChartWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\SelectBike.resx">
+      <DependentUpon>SelectBike.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Window\VirtualSimulation.resx">
+      <DependentUpon>VirtualSimulation.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -228,6 +265,10 @@
     </None>
     <None Include="Data\Shader\ps.v">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Save\SaveSetting.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>SaveSetting.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -19,10 +19,14 @@
  * Where a is the acceleration, M is the motor's torque, Is is the transmission ratio of .... (my hair is green and I'm bored of documenting things that nobody will ever read and nobody's listening anyway)
  */
 
+using System;
+
 namespace SimProvider
 {
+    [Serializable]
     public class Battery
     {
+        public string name = "";
 		private double voltage;
         public double Voltage {
 			get {
@@ -100,9 +104,10 @@ namespace SimProvider
             this.ampereHours = ampereHours;
         }
     }
-
+    [Serializable]
     public class Engine
     {
+        public string name = "";
         private double efficieny;
 		public double Efficiency {
 			get {
@@ -135,9 +140,10 @@ namespace SimProvider
 			this.torque = torque;
 		}
     }
-
+    [Serializable]
     public class Tire
     {
+        public string name = "";
 		private double diameter;
 		public double Diameter {
 			get {
@@ -158,15 +164,17 @@ namespace SimProvider
 			this.diameter = diameter;
 		}
     }
-
+    [Serializable]
 	//shouldn't this be part of the game?
     public abstract class Surfaces
     {
+        public string name = "";
         public const double crrAsphalt = 0.015;
     }
-
+    [Serializable]
     public class Bike
     {
+        public string name = "";
         private Battery battery;
 		public Battery Battery {
 			get {
@@ -316,14 +324,15 @@ namespace SimProvider
 			this.tra = tra;
 		}
 
-        public void update(double time, short PWM)
+        public void update(double time, int PWM)
         {
             double forceMoving = (this.engine.Torque * this.trs * this.tra * 0.9) / (0.5 * this.tire.Diameter);
             double forceStopping = (0.5 * 0.57 * 1.2041 * this.bikeSurface * this.velocity * this.velocity) + (this.surface * this.weight * 9.81); // 0.57 is the coefficient of flow resistance, 1.2401 is the density of air, 9.81 is obvious
             double actualForceMoving = forceMoving - forceStopping;
             double acceleration = actualForceMoving / this.weight;
 
-            double PWMPercent = PWM / 255;
+            double PWMPercent = Convert.ToDouble(PWM) / 255;
+            Console.WriteLine(PWMPercent);
             acceleration *= PWMPercent;
 
             this.battery.RunTime -= time * PWMPercent;
@@ -331,6 +340,10 @@ namespace SimProvider
             this.acceleration = acceleration;
 			this.velocity += (this.acceleration * time);
             this.distanceTraveled += (this.velocity * time);
+        }
+        public void update(double time)
+        {
+            this.update(time, 255);
         }
     }
 }
