@@ -132,8 +132,8 @@ namespace SimProvider.Window
                 MainChart.Series[2].Points.AddXY(_manager._datlist[i].X, _manager._datlist[i].Acceleration);
             }
             c = _manager._datlist.Count;
-            while (c > MainChart.Width / 2)
-                simplify();
+            //while (c > MainChart.Width / 2)
+            //    simplify();
         }
 
         private void simplify()

@@ -156,8 +156,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\Textur\Grass.jpg" />
-    <Content Include="Content\Textur\Straße.png" />
     <Content Include="Data\Shader\basic.f">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -260,6 +258,12 @@
     <None Include="Data\Shader\basicShader.v">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Data\Shader\leaf.f">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Shader\leaf.v">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Data\Shader\ps.f">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -271,9 +275,7 @@
       <LastGenOutput>SaveSetting.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>

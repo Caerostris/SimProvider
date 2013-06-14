@@ -51,6 +51,8 @@ namespace SimProvider.Graphics
         private BasicShader sp;
         private BasicShader depthShader;
         private BasicShader ps;
+        private BasicShader bs;
+
         //Framebuffer
         private uint framebuffer = 0;
         private uint depthTextureArray = 0;
@@ -68,6 +70,8 @@ namespace SimProvider.Graphics
         private int depthMode = 0;
         private KeyboardState pks;
         private MouseState pms;
+
+        private float v;
 
         public Scene(int wdh, int hgt)
         {
@@ -118,6 +122,9 @@ namespace SimProvider.Graphics
             ps = BasicShader.create("Data/Shader/ps.v", "Data/Shader/ps.f");
             ps.addUniform("tex");
             ps.addUniform("texZ");
+
+            bs = BasicShader.create("Data/Shader/basicShader.v", "Data/Shader/basicShader.f");
+            bs.addUniform("mvp");
         }
 
         private void initGL()
@@ -186,6 +193,8 @@ namespace SimProvider.Graphics
             Mesh[] tmmeshes = OBJLoader.loadModelfromOBJ("Data/Models/tm.obj");
             models.add("tachometer", new VertexBufferObject(tmmeshes[1]));
             models.add("tachometer|", new VertexBufferObject(tmmeshes[0]));
+            textures.add("tachometer", Texture.fromFile("Data/Textures/tm2.png"));
+            textures.add("tachometer|", Texture.fromFile("Data/Textures/tm.png"));
 
             meshes = OBJLoader.loadModelfromOBJ("Data/Models/lowtree.obj");
             models.add("tree", new VertexBufferObject(meshes[0]));
@@ -287,6 +296,7 @@ namespace SimProvider.Graphics
             else
                 pwm = Math.Min(Math.Max(pwm + (int)(ms.WheelPrecise - pms.WheelPrecise), 0), 255);
             pms = ms;
+            v = velocity;
         }
 
         private void addNewObject(int o)
@@ -407,17 +417,43 @@ namespace SimProvider.Graphics
         }
         private void renderGui()
         {
-            ps.use();
-          //  models.get("tachometer").draw();
+            bs.use();
+
+            GL.ActiveTexture(TextureUnit.Texture0);
+            textures.get("tachometer").bind();
+            Matrix4 mvp = Matrix4.Identity *
+                Matrix4.Scale(0.2f) *
+                Matrix4.CreateTranslation(-0.8f, -0.8f, 0f) *
+                Matrix4.LookAt(Vector3.UnitZ, -Vector3.UnitZ, Vector3.UnitY) *
+                Matrix4.CreateOrthographicOffCenter(-1, 1, -1, 1, 0.01f, 10.0f);
+            GL.UniformMatrix4(bs.Uniforms["mvp"], false, ref mvp); 
+            models.get("tachometer").draw();
+
+            GL.ActiveTexture(TextureUnit.Texture0);
+            textures.get("tachometer|").bind();
+            mvp = Matrix4.Identity *
+               Matrix4.Scale(0.2f) *
+               Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(((270/120)*-v)+135)) *
+               Matrix4.CreateTranslation(-0.8f, -0.8f, 0f) *
+               Matrix4.LookAt(Vector3.UnitZ, -Vector3.UnitZ, Vector3.UnitY) *
+               Matrix4.CreateOrthographicOffCenter(-1, 1, -1, 1, 0.01f, 10.0f);
+            GL.UniformMatrix4(bs.Uniforms["mvp"], false, ref mvp);
+            models.get("tachometer|").draw();
+
+            GL.UseProgram(0);
+
+          
             //Debug---------------------------------------------------------------------------------------------------------------
-#if DEBUG
+#if DEBUG  
+            ps.use();
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2DArray, depthTextureArray);
             GL.Uniform1(ps.Uniforms["tex"], 0);
             GL.Uniform1(ps.Uniforms["texZ"], depthMode);
             models.get("plane").draw();
-#endif
             GL.UseProgram(0);
+#endif
+            
         }
 
         private void renderSceneObjectDepth(SceneObject so, int slice)

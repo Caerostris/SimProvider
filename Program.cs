@@ -14,7 +14,7 @@ namespace SimProvider
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Graphics.GLTest());
+           // Application.Run(new Graphics.GLTest());
             Application.Run(new Window.MainWindow());
             //new CSVExport();
         }
