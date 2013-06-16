@@ -149,6 +149,7 @@ namespace SimProvider.Graphics
             newObjects = new List<string[]>();
             newObjects.Add(new string[] { "tree", "leaf", "tree1", "leafs" });
 
+
             streetSegments = new List<string[]>();
             streetSegments.Add(new string[] { "street", "street" });
 
@@ -433,7 +434,7 @@ namespace SimProvider.Graphics
             textures.get("tachometer|").bind();
             mvp = Matrix4.Identity *
                Matrix4.Scale(0.2f) *
-               Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(((270/120)*-v)+135)) *
+               Matrix4.CreateRotationZ(MathHelper.DegreesToRadians(((270/120)*-(v*3.6f))+135)) *
                Matrix4.CreateTranslation(-0.8f, -0.8f, 0f) *
                Matrix4.LookAt(Vector3.UnitZ, -Vector3.UnitZ, Vector3.UnitY) *
                Matrix4.CreateOrthographicOffCenter(-1, 1, -1, 1, 0.01f, 10.0f);

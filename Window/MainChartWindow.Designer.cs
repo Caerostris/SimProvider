@@ -102,6 +102,7 @@
             this.MainChart.Size = new System.Drawing.Size(618, 371);
             this.MainChart.TabIndex = 1;
             this.MainChart.Text = "chart1";
+
             // 
             // timer
             // 

@@ -174,5 +174,6 @@ namespace SimProvider.Window
             vs.Dispose();
             vs.Close();
         }
+
     }
 }
