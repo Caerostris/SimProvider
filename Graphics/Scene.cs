@@ -147,7 +147,7 @@ namespace SimProvider.Graphics
             wheel = new SceneObject(new Vector3(0, 0.5f, 0.5f), new Vector3(0, MathHelper.Pi / 2, 0), new Vector3(0.25f, 0.25f, 0.25f), "wheel", "motorcycle");
 
             newObjects = new List<string[]>();
-            newObjects.Add(new string[] { "tree", "leaf", "tree1", "leafs" });
+            newObjects.Add(new string[] { "tree", "leaf", "tree1", "branchstar" });
 
 
             streetSegments = new List<string[]>();
@@ -197,9 +197,9 @@ namespace SimProvider.Graphics
             textures.add("tachometer", Texture.fromFile("Data/Textures/tm2.png"));
             textures.add("tachometer|", Texture.fromFile("Data/Textures/tm.png"));
 
-            meshes = OBJLoader.loadModelfromOBJ("Data/Models/lowtree.obj");
-            models.add("tree", new VertexBufferObject(meshes[0]));
-            models.add("leaf", new VertexBufferObject(meshes[1]));
+            meshes = OBJLoader.loadModelfromOBJ("Data/Models/tree.obj");
+            models.add("tree", new VertexBufferObject(meshes[1]));
+            models.add("leaf", new VertexBufferObject(meshes[0]));
             //textures.add("leafs",Texture.fromFile("Data/Textures/leafs.png",5));
 
             grassModel = new VertexBufferObject(OBJLoader.loadModelfromOBJ("Data/Models/grass.obj")[0]);
@@ -275,9 +275,9 @@ namespace SimProvider.Graphics
             }
 
             addc += elapsedTime * velocity * r.NextDouble();
-            while (addc > 3)
+            while (addc > 0.5)
             {
-                addc -= 1;
+                addc -= 0.5;
                 addNewObject(300);
             }
             wheel.Rotation -= new Vector3(MathHelper.DegreesToRadians((elapsedTime * velocity) * 180 / (MathHelper.Pi * (float)Math.Pow(diameter, 2))), 0, 0);
@@ -325,9 +325,10 @@ namespace SimProvider.Graphics
             GL.Clear(ClearBufferMask.DepthBufferBit);
             GL.Viewport(0, 0, depthTextureWidth, depthTextureWidth);
 
+            GL.Disable(EnableCap.CullFace);
             foreach (SceneObject so in objects)
                 renderSceneObjectDepth(so, 0);
-
+            GL.Enable(EnableCap.CullFace);
             renderSceneObjectDepth(motorcycle, 0);
             renderSceneObjectDepth(wheel, 0);
 
@@ -338,10 +339,10 @@ namespace SimProvider.Graphics
             GL.Viewport(0, 0, width, height);
 
             GL.Enable(EnableCap.AlphaTest);
-
+            GL.Disable(EnableCap.CullFace);
             foreach (SceneObject so in objects)
                 renderSceneObject(so);
-
+            GL.Enable(EnableCap.CullFace);
             for (int i = 0; i < 20; i++)
             { renderSceneObject(street); street.Position -= new Vector3(0, 0, 10); }
             street.Position += new Vector3(0, 0, 200);
@@ -442,7 +443,6 @@ namespace SimProvider.Graphics
             models.get("tachometer|").draw();
 
             GL.UseProgram(0);
-
           
             //Debug---------------------------------------------------------------------------------------------------------------
 #if DEBUG  

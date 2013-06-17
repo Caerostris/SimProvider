@@ -165,6 +165,12 @@
     <Content Include="Data\Textures\Barke.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Data\Textures\branch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Textures\branchstar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Data\Textures\grass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
